@@ -1,46 +1,75 @@
 /**
- * Drawing Module
+ * The shape of coding
  * Breina Kelly
  * 
- * Practicing and learning drawing functions in p5
+ * Just like the movie the shape of water but instead of falling in love with a fish
+ * the girl just like coded a program where her mouse leaves behind a trail of varying shapes and lines
  */
 
 "use strict";
 
+let shape = 'circle';  // circle is default
+let circleSize = 100; // 100 default circle size
+let lineWidth = 3; // 3 default line width
+
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * the no background thing didnt work for me why
 */
 function setup() {
-    createCanvas(640,640);
+    createCanvas(windowWidth, windowHeight); //i want my canvas to be the whole screen
+    background(255); //white bg
 
 }
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * taking shape :)
 */
 function draw() {
-background(150,150,150);
+    if (shape === 'circle') {
+        push();
+        fill(
+            map(mouseX, 0, width, 0, 255)
+        );
+        ellipse(mouseX, mouseY, circleSize);
+        pop();
+    }
 
-//the red part
-push();
-fill(255,0,0);
-stroke(255);
-ellipse(320,320,480);
-pop();
+    else if (shape === 'line') {
+        push();
+        stroke(
+            map(mouseX, 0, width, 0, 255)
+        );
+        strokeWeight(lineWidth);
+        line(0, mouseY, width, mouseY);
+        pop();
+    }
 
-//the whit5 part
-push();
-fill("white");
-noStroke();
-ellipse(320,320,140,140);
-pop();
+}
 
-//the little hole
-push();
-fill("#000000");
-noStroke();
-ellipse(320,320,20,20);
-pop();
+function keyPressed() {
+    if (key === '1') {
+        shape = 'circle';  // circle time
+    } else if (key === '2') {
+        shape = 'line';  // line time
+    } else if (key === '0') {
+        background(255);  // CLEAR
+        shape = 'circle';
+        circleSize = 100;
+        ineWidth = 3;
+    }
 
+
+    if (shape === 'circle' && keyCode === UP_ARROW) {
+        circleSize += 10;
+    }
+    if (shape === 'circle' && keyCode === DOWN_ARROW) {
+        circleSize -= 10;
+    }
+    if (shape === 'line' && keyCode === UP_ARROW) {
+        lineWidth += 1;
+    }
+    if (shape === 'line' && keyCode === DOWN_ARROW) {
+        lineWidth -= 1;
+    }
 }

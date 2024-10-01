@@ -1,21 +1,26 @@
-# Template p5 Project
+# WAS the Template p5 Project... until it wasn't
 
-Author Name
+Breina Kelly
 
 [View this project online](URL_FOR_THE_RUNNING_PROJECT)
 
 ## Description
 
-This description should help the reader understand what the program is, what any controls do, and perhaps what the desired experience it.
+My Art Jam project! This program will hopefully let users make their own art with trails of varying circles and lines!
+
+Instructions:
+
+Press 1 for circles
+Press 2 for lines
+Press 0 to clear the screen
+Up and down arroow keys control shape size/line width
 
 ## Credits
-
-This bit should describe what tools were used. For example:
 
 This project uses [p5.js](https://p5js.org).
 
 ## Attribution
 
-This bit should attribute any assets or other elements used taken from other sources. For example:
+ChatGPT taught me how to clear the screen, it certainly "generated" "A" cool helpful tip for "I"
 
-The fish images were sourced from the [Creative Commons image "Georgia Aquarium Fish"](https://search.creativecommons.org/photos/96f6f770-eac1-488c-8abb-16bee7bcc874) by Mike Johnston which is licensed with CC BY 2.0. To view a copy of this license, visit https://creativecommons.org/licenses/by/2.0/.
+and that joke I stole from twitter 
