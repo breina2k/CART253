@@ -1,9 +1,9 @@
 /**
- * Title of Project
- * Author Name
+ * The shape of coding
+ * Breina Kelly
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * Just like the movie the shape of water but instead of falling in love with a fish
+ * the girl just like coded a program where her mouse leaves behind a trail of varying shapes and lines
  */
 
 "use strict";
