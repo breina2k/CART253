@@ -51,10 +51,7 @@ function keyPressed() {
     } else if (key === '2') {
         shape = 'line';  // line time
     } else if (key === '0') {
-        background(255);  // CLEAR
-        shape = 'circle';
-        circleSize = 100;
-        lineWidth = 3;
+        reset();
     }
 
 
@@ -70,4 +67,12 @@ function keyPressed() {
     if (shape === 'line' && keyCode === DOWN_ARROW) {
         lineWidth -= 1;
     }//makes lines thinner
+}
+
+//resets the screen
+function reset() {
+    background(255);  // CLEAR
+    shape = 'circle';
+    circleSize = 100;
+    lineWidth = 3;
 }
