@@ -2,7 +2,7 @@
 
 Breina Kelly
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online](https://breina2k.github.io/CART253/BreinaKellyArtJam/)
 
 ## Description
 
