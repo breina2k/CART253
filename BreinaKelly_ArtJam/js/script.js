@@ -47,7 +47,7 @@ function draw() {
     else if (shape === 'noshape') {
         push();
         pop();
-    }
+    } //lets it so you can move the mouse without drawing anything
 }
 
 //resets the screen
@@ -64,7 +64,7 @@ function keyPressed() {
     } else if (key === '2') {
         shape = 'line';  // line time
     } else if (key === '3') {
-        shape = 'noshape';  // will this work
+        shape = 'noshape';  // so glad this works
     } else if (key === '0') {
         reset();
     }
