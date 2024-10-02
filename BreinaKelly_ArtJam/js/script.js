@@ -9,16 +9,22 @@
 "use strict";
 
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * no background allows for trails!
 */
 function setup() {
-
+    createCanvas(windowWidth, windowHeight); //i want my canvas to be the whole screen
+    background(0);
 }
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * taking shapee :)
 */
 function draw() {
-
+    push();
+    fill(
+        map(mouseX, 0, width, 0, 255)
+    );
+    ellipse(mouseX, mouseY, 100);
+    pop();
 }
