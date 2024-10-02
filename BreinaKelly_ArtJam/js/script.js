@@ -21,10 +21,33 @@ function setup() {
  * taking shapee :)
 */
 function draw() {
-    push();
-    fill(
-        map(mouseX, 0, width, 0, 255)
-    );
-    ellipse(mouseX, mouseY, 100);
-    pop();
+    if (shape === 'circle') {
+        push();
+        fill(
+            map(mouseX, 0, width, 0, 255)
+        );
+        ellipse(mouseX, mouseY, 100);
+        pop();
+    }
+
+    else if (shape === 'line') {
+        push();
+        stroke(
+            map(mouseX, 0, width, 0, 255)
+        );
+        strokeWeight(3);
+        line(0, mouseY, width, mouseY);
+        pop();
+    }
+}
+
+function keyPressed() {
+    if (key === '1') {
+        shape = 'circle';  // circle time
+    } else if (key === '2') {
+        shape = 'line';  // line time
+    } else if (key === '0') {
+        background(255);  // CLEAR
+        shape = 'circle';
+    }
 }
