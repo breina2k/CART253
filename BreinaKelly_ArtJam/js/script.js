@@ -17,7 +17,7 @@ let lineWidth = 3; // 3 default line width
 */
 function setup() {
     createCanvas(windowWidth, windowHeight); //i want my canvas to be the whole screen
-    background(255);
+    background(255); //white bg
 }
 
 
@@ -53,19 +53,21 @@ function keyPressed() {
     } else if (key === '0') {
         background(255);  // CLEAR
         shape = 'circle';
+        circleSize = 100;
+        lineWidth = 3;
     }
 
 
     if (shape === 'circle' && keyCode === UP_ARROW) {
         circleSize += 10;
-    }
+    } //makes circles bigger
     if (shape === 'circle' && keyCode === DOWN_ARROW) {
         circleSize -= 10;
-    }
+    }//makes circles smaller
     if (shape === 'line' && keyCode === UP_ARROW) {
         lineWidth += 1;
-    }
+    }//makes lines thicker
     if (shape === 'line' && keyCode === DOWN_ARROW) {
         lineWidth -= 1;
-    }
+    }//makes lines thinner
 }
