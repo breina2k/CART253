@@ -8,6 +8,10 @@
 
 "use strict";
 
+let shape = 'circle';  // circle is default
+let circleSize = 100; // 100 default circle size
+let lineWidth = 3; // 3 default line width
+
 /**
  * the no background thing didnt work for me why
 */
@@ -26,7 +30,7 @@ function draw() {
         fill(
             map(mouseX, 0, width, 0, 255)
         );
-        ellipse(mouseX, mouseY, 100);
+        ellipse(mouseX, mouseY, circleSize);
         pop();
     }
 
@@ -35,7 +39,7 @@ function draw() {
         stroke(
             map(mouseX, 0, width, 0, 255)
         );
-        strokeWeight(3);
+        strokeWeight(lineWidth);
         line(0, mouseY, width, mouseY);
         pop();
     }
@@ -49,5 +53,19 @@ function keyPressed() {
     } else if (key === '0') {
         background(255);  // CLEAR
         shape = 'circle';
+    }
+
+
+    if (shape === 'circle' && keyCode === UP_ARROW) {
+        circleSize += 10;
+    }
+    if (shape === 'circle' && keyCode === DOWN_ARROW) {
+        circleSize -= 10;
+    }
+    if (shape === 'line' && keyCode === UP_ARROW) {
+        lineWidth += 1;
+    }
+    if (shape === 'line' && keyCode === DOWN_ARROW) {
+        lineWidth -= 1;
     }
 }
