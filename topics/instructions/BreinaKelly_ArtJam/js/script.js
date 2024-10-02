@@ -56,7 +56,7 @@ function keyPressed() {
         background(255);  // CLEAR
         shape = 'circle';
         circleSize = 100;
-        ineWidth = 3;
+        lineWidth = 3;
     }
 
 
