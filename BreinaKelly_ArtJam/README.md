@@ -14,7 +14,7 @@ Press 1 for circles
 Press 2 for lines
 Press 3 for nothing
 Press 0 to clear the screen
-Up and down arroow keys control shape size/line width
+Up and down arrow keys control shape size/line width
 
 ## Credits
 
