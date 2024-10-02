@@ -9,11 +9,11 @@
 "use strict";
 
 /**
- * no background allows for trails!
+ * the no background thing didnt work for me why
 */
 function setup() {
     createCanvas(windowWidth, windowHeight); //i want my canvas to be the whole screen
-    background(0);
+    background(255);
 }
 
 
