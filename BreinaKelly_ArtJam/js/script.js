@@ -3,7 +3,7 @@
  * Breina Kelly
  * 
  * Just like the movie the shape of water but instead of falling in love with a fish
- * the girl just like coded a program where her mouse leaves behind a trail of varying shapes and lines
+ * the girl just like codes a program where her mouse leaves behind a trail of varying shapes and lines
  */
 
 "use strict";
@@ -29,8 +29,8 @@ function draw() {
         push();
         fill(
             map(mouseX, 0, width, 0, 255)
-        );
-        ellipse(mouseX, mouseY, circleSize);
+        ); //colour maps in greyscale cuz im boring
+        ellipse(mouseX, mouseY, circleSize); //circles follow mouse
         pop();
     }
 
@@ -40,14 +40,14 @@ function draw() {
             map(mouseX, 0, width, 0, 255)
         );
         strokeWeight(lineWidth);
-        line(0, mouseY, width, mouseY);
+        line(0, mouseY, width, mouseY); //lines are made horizontally across the screen
         pop();
     }
 
     else if (shape === 'noshape') {
         push();
         pop();
-    } //lets it so you can move the mouse without drawing anything
+    } //lets you move the mouse without drawing anything
 }
 
 //resets the screen
