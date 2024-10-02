@@ -22,7 +22,7 @@ function setup() {
 
 
 /**
- * taking shapee :)
+ * taking shape
 */
 function draw() {
     if (shape === 'circle') {
@@ -43,6 +43,19 @@ function draw() {
         line(0, mouseY, width, mouseY);
         pop();
     }
+
+    else if (shape === 'noshape') {
+        push();
+        pop();
+    }
+}
+
+//resets the screen
+function reset() {
+    background(255);  // CLEAR
+    shape = 'circle';
+    circleSize = 100;
+    lineWidth = 3;
 }
 
 function keyPressed() {
@@ -50,6 +63,8 @@ function keyPressed() {
         shape = 'circle';  // circle time
     } else if (key === '2') {
         shape = 'line';  // line time
+    } else if (key === '3') {
+        shape = 'noshape';  // will this work
     } else if (key === '0') {
         reset();
     }
@@ -69,10 +84,6 @@ function keyPressed() {
     }//makes lines thinner
 }
 
-//resets the screen
-function reset() {
-    background(255);  // CLEAR
-    shape = 'circle';
-    circleSize = 100;
-    lineWidth = 3;
-}
+/**
+ *I've never actually seen the shape of water
+ */
