@@ -5,7 +5,7 @@
  * Pond City is in danger! Evil Frog is mad af and the player needs to unlock a team of 4 Super Frogs by catching their 
  * respective costumes (a hat, clothing item, and accessory). They'll do this by choosing the frog they'd likee to unlock, 
  * then catching the correct set of items by moving the center frog and launching the tongue to capture the item.
- * Catch the three right items and you've unlocked a super frog! Catch the wrrong item and Evil Frog wins :(
+ * Catch the three right items and you've unlocked a super frog! Catch the wrong item and Evil Frog wins :(
  * 
  * Instructions (for me, real instructions will be in Read Me):
  * - Start game screen... where you start the game
@@ -14,6 +14,7 @@
  * - Move the frog with your mouse
  * - Click to launch the tongue
  * - Catch set of 3 correct item bubbles (bubble pop sound)
+ * - Bubble pop animation may kill me, I'll see what I can do
  * - x/3 counter up top right
  * - If right set: congrats screen, then back to unlock screen
  * - If wrong set: Evil Frog won screen, restart game, no mercy, the fate of Pond City was in YOUR hands
@@ -53,6 +54,22 @@ const fly = {
     y: 200, // Will be random
     size: 10,
     speed: 3
+};
+
+const wizardHat = {
+    x: -100, // starting off the screen
+    y: 200,
+    size: 50,
+    velocity: {
+        x: 0,
+        y: 0
+    }, // the starting velocity aka not moving
+    speed: 6, // how fast it'll go
+    fill: "#ff0000", // red
+    minDelay: 1000, // delay is how long the item will wait beefore it starts moving
+    maxDelay: 1000,
+    caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
+    moving: false, // when items aree moving, other items will not appear
 };
 
 /**
