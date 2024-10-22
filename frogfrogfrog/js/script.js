@@ -85,11 +85,16 @@ function setup() {
 function draw() {
     background("#87ceeb");
     moveFly();
-    drawFly();
     moveFrog();
     moveTongue();
+    moveWizardHat();
+
+    drawFly();
     drawFrog();
+    drawWizardHat();
+
     checkTongueFlyOverlap();
+    checkTongueWizardHatOverlap();
 }
 
 /**
