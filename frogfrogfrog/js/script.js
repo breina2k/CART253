@@ -78,8 +78,9 @@ const wizardHat = {
 function setup() {
     createCanvas(640, 480);
 
-    // Give the fly its first random position
+    // Start positions
     resetFly();
+    resetWizardHat();
 }
 
 function draw() {
@@ -111,29 +112,17 @@ function moveFly() {
 }
 
 /**
- * Draws the fly as a black circle
- */
-function drawFly() {
-    push();
-    noStroke();
-    fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
-    pop();
-}
-
-/**
- * Resets the fly to the left with a random y
- */
-function resetFly() {
-    fly.x = 0;
-    fly.y = random(0, 300);
-}
-
-/**
  * Moves the frog to the mouse position on x
  */
 function moveFrog() {
     frog.body.x = mouseX;
+}
+
+function moveWizardHat() {
+    wizardHathat.x += wizardHatat.velocity.x; //move hat along x axis w set velocity
+    if (wizardHat.x > width) {
+        resetWizardHat(); //reset hat when it moves off the  screen
+    }
 }
 
 /**
@@ -163,6 +152,26 @@ function moveTongue() {
         }
     }
 }
+
+/**
+ * Draws the fly as a black circle
+ */
+function drawFly() {
+    push();
+    noStroke();
+    fill("#000000");
+    ellipse(fly.x, fly.y, fly.size);
+    pop();
+}
+
+/**
+ * Resets the fly to the left with a random y
+ */
+function resetFly() {
+    fly.x = 0;
+    fly.y = random(0, 300);
+}
+
 
 /**
  * Displays the tongue (tip and line connection) and the frog (body)
