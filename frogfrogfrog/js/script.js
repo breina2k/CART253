@@ -72,6 +72,38 @@ const wizardHat = {
     moving: false, // when items are moving, other items will not appear
 };
 
+const wizardWand = {
+    x: -100, // starting off the screen
+    y: 200,
+    size: 50,
+    velocity: {
+        x: 0,
+        y: 0
+    }, // the starting velocity aka not moving
+    speed: 6, // how fast it'll go
+    fill: "#4287f5", // blue
+    minDelay: 1000, // delay is how long the item will wait beefore it starts moving
+    maxDelay: 1000,
+    caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
+    moving: false, // when items are moving, other items will not appear
+};
+
+const wizardCape = {
+    x: -100, // starting off the screen
+    y: 200,
+    size: 50,
+    velocity: {
+        x: 0,
+        y: 0
+    }, // the starting velocity aka not moving
+    speed: 6, // how fast it'll go
+    fill: "##ffdd00", // yellow
+    minDelay: 1000, // delay is how long the item will wait beefore it starts moving
+    maxDelay: 1000,
+    caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
+    moving: false, // when items are moving, other items will not appear
+};
+
 /**
  * Creates the canvas and initializes the fly
  */
@@ -81,6 +113,8 @@ function setup() {
     // Start positions
     resetFly();
     resetWizardHat();
+    resetWizardWand();
+    resetWizardCape();
 }
 
 function draw() {
@@ -89,10 +123,14 @@ function draw() {
     moveFrog();
     moveTongue();
     moveWizardHat();
+    moveWizardWand();
+    moveWizardCape();
 
     drawFly();
     drawFrog();
     drawWizardHat();
+    drawWizardWand();
+    drawWizardCape();
 
     checkTongueFlyOverlap();
     checkTongueWizardHatOverlap();
