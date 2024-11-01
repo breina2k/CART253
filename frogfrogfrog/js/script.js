@@ -66,8 +66,8 @@ const wizardHat = {
     }, // the starting velocity aka not moving
     speed: 6, // how fast it'll go
     fill: "#ff0000", // red
-    minDelay: 1000, // delay is how long the item will wait beefore it starts moving
-    maxDelay: 1000,
+    minDelay: 3000, // delay is how long the item will wait before it starts moving
+    maxDelay: 7000,
     caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
     moving: false, // when items are moving, other items will not appear
 };
@@ -82,8 +82,8 @@ const wizardWand = {
     }, // the starting velocity aka not moving
     speed: 6, // how fast it'll go
     fill: "#4287f5", // blue
-    minDelay: 1000, // delay is how long the item will wait beefore it starts moving
-    maxDelay: 1000,
+    minDelay: 3000, // delay is how long the item will wait before it starts moving
+    maxDelay: 7000,
     caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
     moving: false, // when items are moving, other items will not appear
 };
@@ -98,8 +98,8 @@ const wizardCape = {
     }, // the starting velocity aka not moving
     speed: 6, // how fast it'll go
     fill: "#ffdd00", // yellow
-    minDelay: 1000, // delay is how long the item will wait beefore it starts moving
-    maxDelay: 1000,
+    minDelay: 3000, // delay is how long the item will wait beefore it starts moving
+    maxDelay: 7000,
     caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
     moving: false, // when items are moving, other items will not appear
 };
@@ -206,6 +206,7 @@ function moveWizardCape() {
     if (wizardCape.x > width) {
         resetWizardCape(); //reset hat when it moves off the  screen
     }
+
 }
 
 /**
@@ -232,16 +233,19 @@ function resetWizardHat() {
     wizardHat.velocity.x = 0;
     // Move the hat back to the left side
     wizardHat.x = -100;
+    wizardHat.moving = false;
     // Calculate a new delay
     const delay = random(wizardHat.minDelay, wizardHat.maxDelay);
     setTimeout(startWizardHat, delay);
 }
+
 
 function resetWizardWand() {
     // Stop it moving (velocity to 0)
     wizardWand.velocity.x = 0;
     // Move the hat back to the left side
     wizardWand.x = -100;
+    wizardWand.moving = false;
     // Calculate a new delay
     const delay = random(wizardWand.minDelay, wizardWand.maxDelay);
     setTimeout(startWizardWand, delay);
@@ -252,21 +256,47 @@ function resetWizardCape() {
     wizardCape.velocity.x = 0;
     // Move the hat back to the left side
     wizardCape.x = -100;
+    wizardCape.moving = false;
     // Calculate a new delay
     const delay = random(wizardCape.minDelay, wizardCape.maxDelay);
     setTimeout(startWizardCape, delay);
 }
 
 function startWizardHat() {
-    wizardHat.velocity.x = wizardHat.speed; //change the velocity from 0 to set speed
+    if (!wizardHat.caught && !wizardWand.moving && !wizardCape.moving) {
+        wizardHat.velocity.x = wizardHat.speed; //change the velocity from 0 to set speed
+        wizardHat.moving = true;
+
+    }
+
+    else {
+        resetWizardHat();
+    }
+
 }
 
 function startWizardWand() {
-    wizardWand.velocity.x = wizardWand.speed; //change the velocity from 0 to set speed
+    if (!wizardWand.caught && !wizardHat.moving && !wizardCape.moving) {
+        wizardWand.velocity.x = wizardWand.speed; //change the velocity from 0 to set speed
+        wizardWand.moving = true;
+    }
+
+    else {
+        resetWizardWand();
+    }
+
 }
 
 function startWizardCape() {
-    wizardCape.velocity.x = wizardCape.speed; //change the velocity from 0 to set speed
+    if (!wizardCape.caught && !wizardHat.moving && !wizardWand.moving) {
+        wizardCape.velocity.x = wizardCape.speed; //change the velocity from 0 to set speed
+        wizardCape.moving = true;
+    }
+
+    else {
+        resetWizardCape();
+    }
+
 }
 
 /**
@@ -343,6 +373,7 @@ function checkTongueWizardHatOverlap() {
     if (eaten) {
         // Set caught to true
         wizardHat.caught = true;
+        wizardHat.moving = false;
         // Stop it moving
         wizardHat.velocity.x = 0;
         // Move it off the screen?
@@ -360,6 +391,7 @@ function checkTongueWizardWandOverlap() {
     if (eaten) {
         // Set caught to true
         wizardWand.caught = true;
+        wizardWand.moving = false;
         // Stop it moving
         wizardWand.velocity.x = 0;
         // Move it off the screen?
@@ -377,6 +409,7 @@ function checkTongueWizardCapeOverlap() {
     if (eaten) {
         // Set caught to true
         wizardCape.caught = true;
+        wizardCape.moving = false;
         // Stop it moving
         wizardCape.velocity.x = 0;
         // Move it off the screen?
