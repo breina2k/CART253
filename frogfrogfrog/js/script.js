@@ -97,7 +97,7 @@ const wizardCape = {
         y: 0
     }, // the starting velocity aka not moving
     speed: 6, // how fast it'll go
-    fill: "##ffdd00", // yellow
+    fill: "#ffdd00", // yellow
     minDelay: 1000, // delay is how long the item will wait beefore it starts moving
     maxDelay: 1000,
     caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
@@ -134,6 +134,8 @@ function draw() {
 
     checkTongueFlyOverlap();
     checkTongueWizardHatOverlap();
+    checkTongueWizardWandOverlap();
+    checkTongueWizardCapeOverlap();
 }
 
 /**
@@ -192,6 +194,20 @@ function moveWizardHat() {
     }
 }
 
+function moveWizardWand() {
+    wizardWand.x += wizardWand.velocity.x; //move hat along x axis w set velocity
+    if (wizardWand.x > width) {
+        resetWizardWand(); //reset hat when it moves off the  screen
+    }
+}
+
+function moveWizardCape() {
+    wizardCape.x += wizardCape.velocity.x; //move hat along x axis w set velocity
+    if (wizardCape.x > width) {
+        resetWizardCape(); //reset hat when it moves off the  screen
+    }
+}
+
 /**
  * Draws the fly as a black circle
  */
@@ -221,8 +237,36 @@ function resetWizardHat() {
     setTimeout(startWizardHat, delay);
 }
 
+function resetWizardWand() {
+    // Stop it moving (velocity to 0)
+    wizardWand.velocity.x = 0;
+    // Move the hat back to the left side
+    wizardWand.x = -100;
+    // Calculate a new delay
+    const delay = random(wizardWand.minDelay, wizardWand.maxDelay);
+    setTimeout(startWizardWand, delay);
+}
+
+function resetWizardCape() {
+    // Stop it moving (velocity to 0)
+    wizardCape.velocity.x = 0;
+    // Move the hat back to the left side
+    wizardCape.x = -100;
+    // Calculate a new delay
+    const delay = random(wizardCape.minDelay, wizardCape.maxDelay);
+    setTimeout(startWizardCape, delay);
+}
+
 function startWizardHat() {
     wizardHat.velocity.x = wizardHat.speed; //change the velocity from 0 to set speed
+}
+
+function startWizardWand() {
+    wizardWand.velocity.x = wizardWand.speed; //change the velocity from 0 to set speed
+}
+
+function startWizardCape() {
+    wizardCape.velocity.x = wizardCape.speed; //change the velocity from 0 to set speed
 }
 
 /**
@@ -259,6 +303,22 @@ function drawWizardHat() {
     pop();
 }
 
+function drawWizardWand() {
+    push();
+    noStroke();
+    fill(wizardWand.fill);
+    ellipse(wizardWand.x, wizardWand.y, wizardWand.size);
+    pop();
+}
+
+function drawWizardCape() {
+    push();
+    noStroke();
+    fill(wizardCape.fill);
+    ellipse(wizardCape.x, wizardCape.y, wizardCape.size);
+    pop();
+}
+
 /**
  * Handles the tongue overlapping the fly
  */
@@ -287,6 +347,40 @@ function checkTongueWizardHatOverlap() {
         wizardHat.velocity.x = 0;
         // Move it off the screen?
         wizardHat.x = -10000;
+        // Bring back the tongue
+        frog.tongue.state = "inbound";
+    }
+}
+
+function checkTongueWizardWandOverlap() {
+    // Get distance from tongue to hat
+    const d = dist(frog.tongue.x, frog.tongue.y, wizardWand.x, wizardWand.y);
+    // Check if it's an overlap
+    const eaten = (d < frog.tongue.size / 2 + wizardWand.size / 2);
+    if (eaten) {
+        // Set caught to true
+        wizardWand.caught = true;
+        // Stop it moving
+        wizardWand.velocity.x = 0;
+        // Move it off the screen?
+        wizardWand.x = -10000;
+        // Bring back the tongue
+        frog.tongue.state = "inbound";
+    }
+}
+
+function checkTongueWizardCapeOverlap() {
+    // Get distance from tongue to hat
+    const d = dist(frog.tongue.x, frog.tongue.y, wizardCape.x, wizardCape.y);
+    // Check if it's an overlap
+    const eaten = (d < frog.tongue.size / 2 + wizardCape.size / 2);
+    if (eaten) {
+        // Set caught to true
+        wizardCape.caught = true;
+        // Stop it moving
+        wizardCape.velocity.x = 0;
+        // Move it off the screen?
+        wizardCape.x = -10000;
         // Bring back the tongue
         frog.tongue.state = "inbound";
     }
