@@ -69,7 +69,7 @@ const wizardHat = {
     minDelay: 1000, // delay is how long the item will wait beefore it starts moving
     maxDelay: 1000,
     caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
-    moving: false, // when items aree moving, other items will not appear
+    moving: false, // when items are moving, other items will not appear
 };
 
 /**
@@ -183,7 +183,7 @@ function resetWizardHat() {
     setTimeout(startWizardHat, delay);
 }
 
-function startHat() {
+function startWizardHat() {
     wizardHat.velocity.x = wizardHat.speed; //change the velocity from 0 to set speed
 }
 
@@ -232,6 +232,23 @@ function checkTongueFlyOverlap() {
     if (eaten) {
         // Reset the fly
         resetFly();
+        // Bring back the tongue
+        frog.tongue.state = "inbound";
+    }
+}
+
+function checkTongueWizardHatOverlap() {
+    // Get distance from tongue to hat
+    const d = dist(frog.tongue.x, frog.tongue.y, wizardHat.x, wizardHat.y);
+    // Check if it's an overlap
+    const eaten = (d < frog.tongue.size / 2 + wizardHat.size / 2);
+    if (eaten) {
+        // Set caught to true
+        wizardHat.caught = true;
+        // Stop it moving
+        wizardHat.velocity.x = 0;
+        // Move it off the screen?
+        wizardHat.x = -10000;
         // Bring back the tongue
         frog.tongue.state = "inbound";
     }
