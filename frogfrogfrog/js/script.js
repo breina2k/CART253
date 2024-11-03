@@ -104,6 +104,9 @@ const wizardCape = {
     moving: false, // when items are moving, other items will not appear
 };
 
+let state = "title"; //starting title screen
+
+
 let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 
@@ -121,26 +124,41 @@ function setup() {
 }
 
 function draw() {
-    background("#87ceeb");
-    moveFly();
-    moveFrog();
-    moveTongue();
-    moveWizardHat();
-    moveWizardWand();
-    moveWizardCape();
 
-    drawCounter();
-    drawFly();
-    drawFrog();
-    drawWizardHat();
-    drawWizardWand();
-    drawWizardCape();
+    if (state === "title") {
+        title();
+    }
+    else if (state === "wizard") {
+        background("#87ceeb");
+        moveFly();
+        moveFrog();
+        moveTongue();
+        moveWizardHat();
+        moveWizardWand();
+        moveWizardCape();
 
-    checkTongueFlyOverlap();
-    checkTongueWizardHatOverlap();
-    checkTongueWizardWandOverlap();
-    checkTongueWizardCapeOverlap();
+        drawCounter();
+        drawFly();
+        drawFrog();
+        drawWizardHat();
+        drawWizardWand();
+        drawWizardCape();
 
+        checkTongueFlyOverlap();
+        checkTongueWizardHatOverlap();
+        checkTongueWizardWandOverlap();
+        checkTongueWizardCapeOverlap();
+
+    }
+
+}
+
+function title() {
+    background(127);
+
+    push();
+    text("Frogfrogfrog", 100, 100);
+    pop();
 }
 
 /**
@@ -405,7 +423,6 @@ function checkTongueWizardHatOverlap() {
         wizardHat.caught = true;
         wizardHat.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            setTimeout(5000);
             wizardPopUp();
         }
         // Stop it moving
@@ -429,7 +446,6 @@ function checkTongueWizardWandOverlap() {
         wizardWand.caught = true;
         wizardWand.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            setTimeout(5000);
             wizardPopUp();
         }
         // Stop it moving
@@ -453,7 +469,6 @@ function checkTongueWizardCapeOverlap() {
         wizardCape.caught = true;
         wizardCape.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            setTimeout(5000);
             wizardPopUp();
         }
         // Stop it moving
@@ -469,7 +484,14 @@ function checkTongueWizardCapeOverlap() {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-    if (frog.tongue.state === "idle") {
-        frog.tongue.state = "outbound";
+
+    if (state === "title") {
+        state = "wizard";
+        barkSFX.loop();
+    }
+    else if (state === "wizard") {
+        if (frog.tongue.state === "idle") {
+            frog.tongue.state = "outbound";
+        }
     }
 }
