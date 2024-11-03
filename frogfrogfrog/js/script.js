@@ -104,6 +104,9 @@ const wizardCape = {
     moving: false, // when items are moving, other items will not appear
 };
 
+let counter = 0; //current score
+let wizardWin = false; //youve gotta work for it
+
 /**
  * Creates the canvas and initializes the fly
  */
@@ -126,6 +129,7 @@ function draw() {
     moveWizardWand();
     moveWizardCape();
 
+    drawCounter();
     drawFly();
     drawFrog();
     drawWizardHat();
@@ -136,6 +140,7 @@ function draw() {
     checkTongueWizardHatOverlap();
     checkTongueWizardWandOverlap();
     checkTongueWizardCapeOverlap();
+
 }
 
 /**
@@ -207,6 +212,29 @@ function moveWizardCape() {
         resetWizardCape(); //reset hat when it moves off the  screen
     }
 
+}
+
+function wizardPopUp() {
+    push();
+    fill(0, 150); // black rect with some transparency
+    rect(0, 0, width, height);
+    fill("white"); // white text
+    textSize(48);
+    textAlign(CENTER, CENTER);
+    text("You Win!", width / 2, height / 2);
+    noLoop();
+    pop();
+}
+
+
+function drawCounter() {
+    push();
+    fill("white");
+    noStroke();
+    textSize(64);
+    textStyle(BOLD);
+    textAlign(RIGHT, TOP);
+    text(counter + " / 3", width - 20, 20); //this setup lets me embed my counter variable into a  string of text! atleast thats what google told me
 }
 
 /**
@@ -371,9 +399,15 @@ function checkTongueWizardHatOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + wizardHat.size / 2);
     if (eaten) {
+        // Increase the counter
+        counter = counter + 1;
         // Set caught to true
         wizardHat.caught = true;
         wizardHat.moving = false;
+        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+            setTimeout(5000);
+            wizardPopUp();
+        }
         // Stop it moving
         wizardHat.velocity.x = 0;
         // Move it off the screen?
@@ -389,9 +423,15 @@ function checkTongueWizardWandOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + wizardWand.size / 2);
     if (eaten) {
+        // Increase the counter
+        counter = counter + 1;
         // Set caught to true
         wizardWand.caught = true;
         wizardWand.moving = false;
+        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+            setTimeout(5000);
+            wizardPopUp();
+        }
         // Stop it moving
         wizardWand.velocity.x = 0;
         // Move it off the screen?
@@ -407,9 +447,15 @@ function checkTongueWizardCapeOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + wizardCape.size / 2);
     if (eaten) {
+        // Increase the counter
+        counter = counter + 1;
         // Set caught to true
         wizardCape.caught = true;
         wizardCape.moving = false;
+        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+            setTimeout(5000);
+            wizardPopUp();
+        }
         // Stop it moving
         wizardCape.velocity.x = 0;
         // Move it off the screen?
