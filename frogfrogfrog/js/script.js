@@ -49,7 +49,7 @@ const frog = {
 
 // Our fly
 // Has a position, size, and speed of horizontal movement
-const fly = {
+const bomb = {
     x: 0,
     y: 200, // Will be random
     size: 10,
@@ -117,7 +117,7 @@ function setup() {
     createCanvas(640, 480);
 
     // Start positions
-    resetFly();
+    resetBomb();
     resetWizardHat();
     resetWizardWand();
     resetWizardCape();
@@ -130,7 +130,7 @@ function draw() {
     }
     else if (state === "wizard") {
         background("#87ceeb");
-        moveFly();
+        moveBomb();
         moveFrog();
         moveTongue();
         moveWizardHat();
@@ -138,13 +138,13 @@ function draw() {
         moveWizardCape();
 
         drawCounter();
-        drawFly();
+        drawBomb();
         drawFrog();
         drawWizardHat();
         drawWizardWand();
         drawWizardCape();
 
-        checkTongueFlyOverlap();
+        checkTongueBombOverlap();
         checkTongueWizardHatOverlap();
         checkTongueWizardWandOverlap();
         checkTongueWizardCapeOverlap();
@@ -165,12 +165,12 @@ function title() {
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
  */
-function moveFly() {
+function moveBomb() {
     // Move the fly
-    fly.x += fly.speed;
+    bomb.x += bomb.speed;
     // Handle the fly going off the canvas
-    if (fly.x > width) {
-        resetFly();
+    if (bomb.x > width) {
+        resetBomb();
     }
 }
 
@@ -258,20 +258,20 @@ function drawCounter() {
 /**
  * Draws the fly as a black circle
  */
-function drawFly() {
+function drawBomb() {
     push();
     noStroke();
     fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
+    ellipse(bomb.x, bomb.y, bomb.size);
     pop();
 }
 
 /**
  * Resets the fly to the left with a random y
  */
-function resetFly() {
-    fly.x = 0;
-    fly.y = random(0, 300);
+function resetBomb() {
+    bomb.x = 0;
+    bomb.y = random(0, 300);
 }
 
 function resetWizardHat() {
@@ -398,14 +398,14 @@ function drawWizardCape() {
 /**
  * Handles the tongue overlapping the fly
  */
-function checkTongueFlyOverlap() {
+function checkTongueBombOverlap() {
     // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
+    const d = dist(frog.tongue.x, frog.tongue.y, bomb.x, bomb.y);
     // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
+    const eaten = (d < frog.tongue.size / 2 + bomb.size / 2);
     if (eaten) {
         // Reset the fly
-        resetFly();
+        resetBomb();
         // Bring back the tongue
         frog.tongue.state = "inbound";
     }
