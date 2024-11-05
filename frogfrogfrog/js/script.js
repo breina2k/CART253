@@ -108,13 +108,14 @@ let state = "title"; //starting title screen
 let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
-let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg;
+let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg;
 
 function preload() {
     wizardHatImg = loadImage('assets/images/wizardHatBubble.png');
     wizardWandImg = loadImage('assets/images/wizardWandBubble.png');
     wizardCapeImg = loadImage('assets/images/wizardCapeBubble.png');
-    bombImg = loadImage('assets/images/bomb.png')
+    bombImg = loadImage('assets/images/bomb.png');
+    frogImg = loadImage('assets/images/wizardFrog.png');
 }
 
 /**
@@ -136,7 +137,7 @@ function draw() {
         title();
     }
     else if (state === "wizard") {
-        background("#87ceeb");
+        background("#3d80a3");
         moveBomb();
         moveFrog();
         moveTongue();
@@ -247,11 +248,11 @@ function wizardPopUp() {
     textSize(48);
     textAlign(CENTER, CENTER);
     text("You Win!", width / 2, height / 2);
-    noLoop();
-
+    image(frogImg, width / 2, height / 2 - 40);
     resetButton = createButton("Play Again"); //creating button to hopefully?? reset the game when you win
     resetButton.position(width / 2 - 40, height / 2 + 60);
     resetButton.mousePressed(resetGame); // calling the reset function when it's pressed
+    noLoop();
     pop();
 }
 
@@ -377,21 +378,21 @@ function startWizardCape() {
 function drawFrog() {
     // Draw the tongue tip
     push();
-    fill("#ff0000");
+    fill("#b23657");
     noStroke();
     ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
     pop();
 
     // Draw the rest of the tongue
     push();
-    stroke("#ff0000");
+    stroke("#b23657");
     strokeWeight(frog.tongue.size);
     line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
     pop();
 
     // Draw the frog's body
     push();
-    fill("#00ff00");
+    fill("#739a70");
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
