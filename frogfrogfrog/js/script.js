@@ -108,7 +108,7 @@ let state = "title"; //starting title screen
 let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
-let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg;
+let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg;
 
 function preload() {
     wizardHatImg = loadImage('assets/images/wizardHatBubble.png');
@@ -116,6 +116,7 @@ function preload() {
     wizardCapeImg = loadImage('assets/images/wizardCapeBubble.png');
     bombImg = loadImage('assets/images/bomb.png');
     frogImg = loadImage('assets/images/wizardFrog.png');
+    titleImg = loadImage('assets/images/title.png');
 }
 
 /**
@@ -162,10 +163,8 @@ function draw() {
 }
 
 function title() {
-    background(127);
-
     push();
-    text("Frogfrogfrog", 100, 100);
+    image(titleImg, 0, 0, width, height);
     pop();
 }
 
@@ -392,7 +391,7 @@ function drawFrog() {
 
     // Draw the frog's body
     push();
-    fill("#739a70");
+    fill("#c2d64f");
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
