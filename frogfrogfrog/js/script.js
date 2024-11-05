@@ -106,7 +106,7 @@ let state = "title"; //starting title screen
 let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
-let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg;
+let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
 
 function preload() {
     wizardHatImg = loadImage('assets/images/wizardHatBubble.png');
@@ -118,6 +118,7 @@ function preload() {
     winImg = loadImage('assets/images/win.png');
     loseImg = loadImage('assets/images/lose.png');
     nakedFrogImg = loadImage('assets/images/nakedFrog.png');
+    bgImg = loadImage('assets/images/gameBG.png');
 }
 
 /**
@@ -139,7 +140,7 @@ function draw() {
         title();
     }
     else if (state === "wizard") {
-        background("#3d80a3");
+        background(bgImg);
         moveBomb();
         moveFrog();
         moveTongue();
@@ -397,7 +398,7 @@ function drawFrog() {
     push();
     fill("#c2d64f");
     noStroke();
-    image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250);
+    image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250); //picture anchorpoint was wonky needed to adjust
     //ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
 }
