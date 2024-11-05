@@ -2,18 +2,16 @@
  * Frogfrogfrogfrog
  * Breina Kelly
  * 
- * Pond City is in danger! Evil Frog is mad af and the player needs to unlock a team of 4 Super Frogs by catching their 
- * respective costumes (a hat, clothing item, and accessory). They'll do this by choosing the frog they'd likee to unlock, 
- * then catching the correct set of items by moving the center frog and launching the tongue to capture the item.
- * Catch the three right items and you've unlocked a super frog! Catch the wrong item and Evil Frog wins :(
+ * Pond City is in danger! Evil Frog is mad af and the player needs to collect wizard frogs costume so he can fight!
+ *  They'll do this by catching the correct set of items by moving the center frog and launching the tongue to capture the item.
+ * Catch the three right items and you've won! Catch the wrong item and Evil Frog wins :(
  * 
  * Instructions (for me, real instructions will be in Read Me):
  * - Start game screen... where you start the game
  * - Real quick run down screen
- * - Choose the frog you'd like to unlock
  * - Move the frog with your mouse
  * - Click to launch the tongue
- * - Catch set of 3 correct item bubbles (bubble pop sound)
+ * - Catch set of 3 correct item bubbles
  * - Bubble pop animation may kill me, I'll see what I can do
  * - x/3 counter up top right
  * - If right set: congrats screen, then back to unlock screen
@@ -108,7 +106,7 @@ let state = "title"; //starting title screen
 let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
-let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg;
+let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg;
 
 function preload() {
     wizardHatImg = loadImage('assets/images/wizardHatBubble.png');
@@ -117,6 +115,8 @@ function preload() {
     bombImg = loadImage('assets/images/bomb.png');
     frogImg = loadImage('assets/images/wizardFrog.png');
     titleImg = loadImage('assets/images/title.png');
+    winImg = loadImage('assets/images/win.png');
+    loseImg = loadImage('assets/images/lose.png');
 }
 
 /**
@@ -160,11 +160,32 @@ function draw() {
 
     }
 
+    else if (state === "win") {
+        win();
+    }
+
+    else if (state === "lose") {
+        lose();
+    }
+
 }
 
 function title() {
     push();
-    image(titleImg, 0, 0, width, height);
+    image(titleImg, 0, 0, width, height); //fullscreen
+    pop();
+}
+
+function win() {
+    push();
+    image(winImg, 0, 0, width, height);
+    pop();
+}
+
+function lose() {
+    push();
+    image(loseImg, 0, 0, width, height);
+    noLoop();
     pop();
 }
 
@@ -239,21 +260,7 @@ function moveWizardCape() {
 
 }
 
-function wizardPopUp() {
-    push();
-    fill(0, 150); // black rect with some transparency
-    rect(0, 0, width, height);
-    fill("white"); // white text
-    textSize(48);
-    textAlign(CENTER, CENTER);
-    text("You Win!", width / 2, height / 2);
-    image(frogImg, width / 2, height / 2 - 40);
-    resetButton = createButton("Play Again"); //creating button to hopefully?? reset the game when you win
-    resetButton.position(width / 2 - 40, height / 2 + 60);
-    resetButton.mousePressed(resetGame); // calling the reset function when it's pressed
-    noLoop();
-    pop();
-}
+
 
 function resetGame() {
     counter = 0; //reset all the variables to default
@@ -264,10 +271,6 @@ function resetGame() {
     resetWizardWand();
     resetWizardCape();
     state = "title"; //bring back to titlescreen
-
-    resetButton.remove(); //dont ask me why it stays but it does
-    loop();
-
 }
 
 
@@ -427,6 +430,7 @@ function checkTongueBombOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + bomb.size / 2);
     if (eaten) {
+        state = "lose";
         // Reset the fly
         resetBomb();
         // Bring back the tongue
@@ -446,7 +450,7 @@ function checkTongueWizardHatOverlap() {
         wizardHat.caught = true;
         wizardHat.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            wizardPopUp();
+            state = "win";
             wizardWin = true;
         }
         // Stop it moving
@@ -470,7 +474,7 @@ function checkTongueWizardWandOverlap() {
         wizardWand.caught = true;
         wizardWand.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            wizardPopUp();
+            state = "win";
             wizardWin = true;
         }
         // Stop it moving
@@ -494,7 +498,7 @@ function checkTongueWizardCapeOverlap() {
         wizardCape.caught = true;
         wizardCape.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            wizardPopUp();
+            state = "win";
             wizardWin = true;
         }
         // Stop it moving
@@ -518,6 +522,10 @@ function mousePressed() {
         if (frog.tongue.state === "idle") {
             frog.tongue.state = "outbound";
         }
+    }
+    else if (state === "win" && state === "lose") {
+        resetGame();
+        state = "title";
     }
 
 }
