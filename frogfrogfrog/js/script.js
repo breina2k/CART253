@@ -52,14 +52,14 @@ const frog = {
 const bomb = {
     x: 0,
     y: 200, // Will be random
-    size: 10,
+    size: 80,
     speed: 3
 };
 
 const wizardHat = {
     x: -100, // starting off the screen
     y: 200,
-    size: 50,
+    size: 80,
     velocity: {
         x: 0,
         y: 0
@@ -75,7 +75,7 @@ const wizardHat = {
 const wizardWand = {
     x: -100, // starting off the screen
     y: 200,
-    size: 50,
+    size: 80,
     velocity: {
         x: 0,
         y: 0
@@ -91,7 +91,7 @@ const wizardWand = {
 const wizardCape = {
     x: -100, // starting off the screen
     y: 200,
-    size: 50,
+    size: 80,
     velocity: {
         x: 0,
         y: 0
@@ -105,10 +105,17 @@ const wizardCape = {
 };
 
 let state = "title"; //starting title screen
-
-
 let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
+let resetButton;
+let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg;
+
+function preload() {
+    wizardHatImg = loadImage('assets/images/wizardHatBubble.png');
+    wizardWandImg = loadImage('assets/images/wizardWandBubble.png');
+    wizardCapeImg = loadImage('assets/images/wizardCapeBubble.png');
+    bombImg = loadImage('assets/images/bomb.png')
+}
 
 /**
  * Creates the canvas and initializes the fly
@@ -241,7 +248,26 @@ function wizardPopUp() {
     textAlign(CENTER, CENTER);
     text("You Win!", width / 2, height / 2);
     noLoop();
+
+    resetButton = createButton("Play Again"); //creating button to hopefully?? reset the game when you win
+    resetButton.position(width / 2 - 40, height / 2 + 60);
+    resetButton.mousePressed(resetGame); // calling the reset function when it's pressed
     pop();
+}
+
+function resetGame() {
+    counter = 0; //reset all the variables to default
+    wizardHat.caught = false;
+    wizardWand.caught = false;
+    wizardCape.caught = false;
+    resetWizardHat();
+    resetWizardWand();
+    resetWizardCape();
+    state = "title"; //bring back to titlescreen
+
+    resetButton.remove(); //dont ask me why it stays but it does
+    loop();
+
 }
 
 
@@ -255,14 +281,11 @@ function drawCounter() {
     text(counter + " / 3", width - 20, 20); //this setup lets me embed my counter variable into a  string of text! atleast thats what google told me
 }
 
-/**
- * Draws the fly as a black circle
- */
+
 function drawBomb() {
     push();
     noStroke();
-    fill("#000000");
-    ellipse(bomb.x, bomb.y, bomb.size);
+    image(bombImg, bomb.x, bomb.y, 80, 80);
     pop();
 }
 
@@ -277,6 +300,7 @@ function resetBomb() {
 function resetWizardHat() {
     // Stop it moving (velocity to 0)
     wizardHat.velocity.x = 0;
+    wizardHat.y = random(0, 300);
     // Move the hat back to the left side
     wizardHat.x = -100;
     wizardHat.moving = false;
@@ -291,6 +315,7 @@ function resetWizardWand() {
     wizardWand.velocity.x = 0;
     // Move the hat back to the left side
     wizardWand.x = -100;
+    wizardWand.y = random(0, 300);
     wizardWand.moving = false;
     // Calculate a new delay
     const delay = random(wizardWand.minDelay, wizardWand.maxDelay);
@@ -300,6 +325,7 @@ function resetWizardWand() {
 function resetWizardCape() {
     // Stop it moving (velocity to 0)
     wizardCape.velocity.x = 0;
+    wizardCape.y = random(0, 300);
     // Move the hat back to the left side
     wizardCape.x = -100;
     wizardCape.moving = false;
@@ -374,24 +400,21 @@ function drawFrog() {
 function drawWizardHat() {
     push();
     noStroke();
-    fill(wizardHat.fill);
-    ellipse(wizardHat.x, wizardHat.y, wizardHat.size);
+    image(wizardHatImg, wizardHat.x, wizardHat.y, 80, 80);
     pop();
 }
 
 function drawWizardWand() {
     push();
     noStroke();
-    fill(wizardWand.fill);
-    ellipse(wizardWand.x, wizardWand.y, wizardWand.size);
+    image(wizardWandImg, wizardWand.x, wizardWand.y, 80, 80);
     pop();
 }
 
 function drawWizardCape() {
     push();
     noStroke();
-    fill(wizardCape.fill);
-    ellipse(wizardCape.x, wizardCape.y, wizardCape.size);
+    image(wizardCapeImg, wizardCape.x, wizardCape.y, 80, 80);
     pop();
 }
 
@@ -424,6 +447,7 @@ function checkTongueWizardHatOverlap() {
         wizardHat.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
             wizardPopUp();
+            wizardWin = true;
         }
         // Stop it moving
         wizardHat.velocity.x = 0;
@@ -447,6 +471,7 @@ function checkTongueWizardWandOverlap() {
         wizardWand.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
             wizardPopUp();
+            wizardWin = true;
         }
         // Stop it moving
         wizardWand.velocity.x = 0;
@@ -470,6 +495,7 @@ function checkTongueWizardCapeOverlap() {
         wizardCape.moving = false;
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
             wizardPopUp();
+            wizardWin = true;
         }
         // Stop it moving
         wizardCape.velocity.x = 0;
@@ -487,11 +513,11 @@ function mousePressed() {
 
     if (state === "title") {
         state = "wizard";
-        barkSFX.loop();
     }
     else if (state === "wizard") {
         if (frog.tongue.state === "idle") {
             frog.tongue.state = "outbound";
         }
     }
+
 }
