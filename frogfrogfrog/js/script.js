@@ -31,8 +31,8 @@ const frog = {
     // The frog's body has a position and size
     body: {
         x: 320,
-        y: 520,
-        size: 150
+        y: 420,
+        size: 200
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
@@ -51,7 +51,7 @@ const bomb = {
     x: 0,
     y: 200, // Will be random
     size: 80,
-    speed: 3
+    speed: 6
 };
 
 const wizardHat = {
@@ -62,7 +62,7 @@ const wizardHat = {
         x: 0,
         y: 0
     }, // the starting velocity aka not moving
-    speed: 6, // how fast it'll go
+    speed: 8, // how fast it'll go
     fill: "#ff0000", // red
     minDelay: 3000, // delay is how long the item will wait before it starts moving
     maxDelay: 7000,
@@ -78,7 +78,7 @@ const wizardWand = {
         x: 0,
         y: 0
     }, // the starting velocity aka not moving
-    speed: 6, // how fast it'll go
+    speed: 8, // how fast it'll go
     fill: "#4287f5", // blue
     minDelay: 3000, // delay is how long the item will wait before it starts moving
     maxDelay: 7000,
@@ -94,7 +94,7 @@ const wizardCape = {
         x: 0,
         y: 0
     }, // the starting velocity aka not moving
-    speed: 6, // how fast it'll go
+    speed: 8, // how fast it'll go
     fill: "#ffdd00", // yellow
     minDelay: 3000, // delay is how long the item will wait beefore it starts moving
     maxDelay: 7000,
@@ -106,7 +106,7 @@ let state = "title"; //starting title screen
 let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
-let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg;
+let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg;
 
 function preload() {
     wizardHatImg = loadImage('assets/images/wizardHatBubble.png');
@@ -117,6 +117,7 @@ function preload() {
     titleImg = loadImage('assets/images/title.png');
     winImg = loadImage('assets/images/win.png');
     loseImg = loadImage('assets/images/lose.png');
+    nakedFrogImg = loadImage('assets/images/nakedFrog.png');
 }
 
 /**
@@ -396,7 +397,8 @@ function drawFrog() {
     push();
     fill("#c2d64f");
     noStroke();
-    ellipse(frog.body.x, frog.body.y, frog.body.size);
+    image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250);
+    //ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
 }
 
