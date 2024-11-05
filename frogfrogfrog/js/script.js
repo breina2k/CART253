@@ -119,7 +119,7 @@ function preload() {
     loseImg = loadImage('assets/images/lose.png');
     nakedFrogImg = loadImage('assets/images/nakedFrog.png');
     bgImg = loadImage('assets/images/gameBG.png');
-}
+} //preloading all images used & giving them names to call on
 
 /**
  * Creates the canvas and initializes the fly
@@ -137,7 +137,7 @@ function setup() {
 function draw() {
 
     if (state === "title") {
-        title();
+        title(); //title page
     }
     else if (state === "wizard") {
         background(bgImg);
@@ -159,15 +159,16 @@ function draw() {
         checkTongueWizardHatOverlap();
         checkTongueWizardWandOverlap();
         checkTongueWizardCapeOverlap();
+        // all functions used in gameplay
 
     }
 
     else if (state === "win") {
-        win();
+        win(); //win page
     }
 
     else if (state === "lose") {
-        lose();
+        lose(); //lose page
     }
 
 }
@@ -191,25 +192,18 @@ function lose() {
     pop();
 }
 
-/**
- * Moves the fly according to its speed
- * Resets the fly if it gets all the way to the right
- */
+
 function moveBomb() {
-    // Move the fly
+    // moves bomb across the screen w speed
     bomb.x += bomb.speed;
-    // Handle the fly going off the canvas
     if (bomb.x > width) {
-        resetBomb();
+        resetBomb(); // reset bomb to left off the screen
     }
 }
 
-/**
- * Moves the frog to the mouse position on x
- */
 function moveFrog() {
     frog.body.x = mouseX;
-}
+} //frog movees along x according to mouse position
 
 
 /**
@@ -265,7 +259,8 @@ function moveWizardCape() {
 
 
 function resetGame() {
-    counter = 0; //reset all the variables to default
+    //reset all the variables to default
+    counter = 0;
     wizardHat.caught = false;
     wizardWand.caught = false;
     wizardCape.caught = false;
@@ -290,16 +285,14 @@ function drawCounter() {
 function drawBomb() {
     push();
     noStroke();
-    image(bombImg, bomb.x, bomb.y, 80, 80);
+    image(bombImg, bomb.x, bomb.y, 80, 80); //loading bomb img andddd ensuring width & height r set
     pop();
 }
 
-/**
- * Resets the fly to the left with a random y
- */
+
 function resetBomb() {
     bomb.x = 0;
-    bomb.y = random(0, 300);
+    bomb.y = random(0, 300); //randomizes the y value
 }
 
 function resetWizardHat() {
@@ -340,20 +333,20 @@ function resetWizardCape() {
 }
 
 function startWizardHat() {
-    if (!wizardHat.caught && !wizardWand.moving && !wizardCape.moving) {
+    if (!wizardHat.caught && !wizardWand.moving && !wizardCape.moving) { //if wizard hat isnt caught and the others arent moving
         wizardHat.velocity.x = wizardHat.speed; //change the velocity from 0 to set speed
         wizardHat.moving = true;
 
     }
 
     else {
-        resetWizardHat();
+        resetWizardHat(); //reset so it waits for its turn and keeps checking w start function
     }
 
 }
 
 function startWizardWand() {
-    if (!wizardWand.caught && !wizardHat.moving && !wizardCape.moving) {
+    if (!wizardWand.caught && !wizardHat.moving && !wizardCape.moving) { //if wizard wand isnt caught and the others arent moving
         wizardWand.velocity.x = wizardWand.speed; //change the velocity from 0 to set speed
         wizardWand.moving = true;
     }
@@ -365,7 +358,7 @@ function startWizardWand() {
 }
 
 function startWizardCape() {
-    if (!wizardCape.caught && !wizardHat.moving && !wizardWand.moving) {
+    if (!wizardCape.caught && !wizardHat.moving && !wizardWand.moving) { //if wizard cape isnt caught and the others arent moving
         wizardCape.velocity.x = wizardCape.speed; //change the velocity from 0 to set speed
         wizardCape.moving = true;
     }
@@ -399,34 +392,28 @@ function drawFrog() {
     fill("#c2d64f");
     noStroke();
     image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250); //picture anchorpoint was wonky needed to adjust
-    //ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
 }
 
 function drawWizardHat() {
     push();
-    noStroke();
-    image(wizardHatImg, wizardHat.x, wizardHat.y, 80, 80);
+    image(wizardHatImg, wizardHat.x, wizardHat.y, 80, 80); //loading bubble imagess
     pop();
 }
 
 function drawWizardWand() {
     push();
-    noStroke();
     image(wizardWandImg, wizardWand.x, wizardWand.y, 80, 80);
     pop();
 }
 
 function drawWizardCape() {
     push();
-    noStroke();
     image(wizardCapeImg, wizardCape.x, wizardCape.y, 80, 80);
     pop();
 }
 
-/**
- * Handles the tongue overlapping the fly
- */
+
 function checkTongueBombOverlap() {
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, bomb.x, bomb.y);
@@ -434,7 +421,7 @@ function checkTongueBombOverlap() {
     const eaten = (d < frog.tongue.size / 2 + bomb.size / 2);
     if (eaten) {
         state = "lose";
-        // Reset the fly
+        // Reset the bomb
         resetBomb();
         // Bring back the tongue
         frog.tongue.state = "inbound";
