@@ -452,11 +452,11 @@ function checkTongueWizardWandOverlap() {
     const eaten = (d < frog.tongue.size / 2 + wizardWand.size / 2);
 
     if (eaten) {
-        counter = counter + 1;
-        wizardWand.caught = true;
-        wizardWand.moving = false;
+        counter = counter + 1; //increase counter by one
+        wizardWand.caught = true; //declare it caught
+        wizardWand.moving = false; //declare it not moving
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            state = "win";
+            state = "win"; //check if all three conditions are met then change to win screen
             wizardWin = true;
         }
 
@@ -471,11 +471,11 @@ function checkTongueWizardCapeOverlap() {
     const eaten = (d < frog.tongue.size / 2 + wizardCape.size / 2);
 
     if (eaten) {
-        counter = counter + 1;
-        wizardCape.caught = true;
-        wizardCape.moving = false;
+        counter = counter + 1; //increase the counter by one
+        wizardCape.caught = true; //set caught to true
+        wizardCape.moving = false; //set moving to false
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-            state = "win";
+            state = "win"; //check if all three conditions are met then set state to win
             wizardWin = true;
         }
 
@@ -489,16 +489,16 @@ function checkTongueWizardCapeOverlap() {
 function mousePressed() {
 
     if (state === "title") {
-        state = "wizard";
+        state = "wizard"; //if state is title, swicth to gameplau on click
     }
     else if (state === "wizard") {
         if (frog.tongue.state === "idle") {
-            frog.tongue.state = "outbound";
+            frog.tongue.state = "outbound"; //if in gameplay state, launch tongue on click
         }
     }
     else if (state === "win" || state === "lose") {
         resetGame();
-        state = "title";
+        state = "title"; //if player is on the win orr lose screen, click to restart the game
     }
 }
 

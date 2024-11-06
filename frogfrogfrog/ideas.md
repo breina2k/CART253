@@ -1,24 +1,9 @@
 # Starting points
 
 
-Finding metro tickets on the ground and trying to sell them
-
-**Frog eating flies but it gets harder and harder to catch them**
-
-Swimming lessons but controlling your body is really hard
-
-Crossing the street and it’s busy
-
-Riding a tricycle but the wheel keeps falling off
-
-Shaving people’s heads in beautiful patterns and showing them at an art gallery
-
-Making cups out of clay and seeing what cafe customers say about them
-
-Growing plants that eat you
-
-Keeping a computer mouse as a pet and looking after it
-
-Rewiring a light
-
-Cooking spaghetti with a dog
+- Fly sorting game? catch flies w tongue and sort them into their respective baskets
+- Frog dress up game, catch different outfits?
+- Unlock (4) super frogs to win game and defeat evil frog
+    -Unlock wizard frog outfit to defeat evil frog*
+- LGBT frog game
+- Frog jumpy game where you use tongue to climb?

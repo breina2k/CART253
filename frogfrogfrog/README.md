@@ -15,6 +15,16 @@ Press mouse or keypad to navigate thrrough different game scenes
 Press mouse of keypad to launch tongue and catch all three items
 Avoid bombs or else evil frog wins
 
+## Additions
+
+-Counter
+-Start screen
+-Win/Lose screens
+-2 different sets of items to catch (wizard items/bombs)
+-Randomized wizard items that appear one at a time
+-Reset game function
+-Visuals
+
 ## Credits
 
 This project uses [p5.js](https://p5js.org).
