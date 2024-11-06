@@ -33,6 +33,8 @@ This project uses [p5.js](https://p5js.org).
 
 ChatGPT taught me understand the difference between || and && in if statements
 
+Pippin made awesome base game!
+
 - [Ideas](./ideas.md)
 - [Planning](./planning.md)
 - [Pseudocode](./pseudocode.md)
