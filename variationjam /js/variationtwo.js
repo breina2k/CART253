@@ -3,7 +3,7 @@
  * Breina Kelly
  * 
  * Pond City is in danger! Evil Frog is mad af and the player needs to collect wizard frogs costume so he can fight!
- *  They'll do this by catching the correct set of items by moving the center frog and launching the tongue to capture the item.
+ * They'll do this by catching the correct set of items by moving the center frog and launching the tongue to capture the item.
  * Catch the three right items and you've won! Catch the wrong item and Evil Frog wins :(
  * 
  * Instructions (for me, real instructions will be in Read Me):
@@ -204,7 +204,7 @@ function moveBomb() {
 
 function moveFrog() {
     frog.body.x = mouseX;
-} //frog movees along x according to mouse position
+} //frog moves along x according to mouse position
 
 
 /**
