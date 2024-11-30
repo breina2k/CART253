@@ -55,8 +55,8 @@ const bomb = {
 
 //the wizarrd hat you need to catch
 const wizardHat = {
-    x: -100, // starting off the screen
-    y: 200,
+    x: 0,
+    y: -100, // starting off the top
     size: 80,
     velocity: {
         x: 0,
@@ -72,8 +72,8 @@ const wizardHat = {
 
 //the wand you need to catch
 const wizardWand = {
-    x: -100, // starting off the screen
-    y: 200,
+    x: 0,
+    y: -100, // starting off the top
     size: 80,
     velocity: {
         x: 0,
@@ -89,8 +89,8 @@ const wizardWand = {
 
 //the cape you need to catch
 const wizardCape = {
-    x: -100, // starting off the screen
-    y: 200,
+    x: 0,
+    y: -100, // starting off the screen
     size: 80,
     velocity: {
         x: 0,
@@ -236,22 +236,22 @@ function moveTongue() {
 }
 
 function moveWizardHat() {
-    wizardHat.x += wizardHat.velocity.x; //move hat along x axis w set velocity
-    if (wizardHat.x > width) {
+    wizardHat.y += wizardHat.velocity.y; //move hat along x axis w set velocity
+    if (wizardHat.y > height) {
         resetWizardHat(); //reset hat when it moves off the  screen
     }
 }
 
 function moveWizardWand() {
-    wizardWand.x += wizardWand.velocity.x; //move hat along x axis w set velocity
-    if (wizardWand.x > width) {
+    wizardWand.y += wizardWand.velocity.y; //move hat along x axis w set velocity
+    if (wizardWand.y > height) {
         resetWizardWand(); //reset hat when it moves off the  screen
     }
 }
 
 function moveWizardCape() {
-    wizardCape.x += wizardCape.velocity.x; //move hat along x axis w set velocity
-    if (wizardCape.x > width) {
+    wizardCape.y += wizardCape.velocity.y; //move hat along x axis w set velocity
+    if (wizardCape.y > height) {
         resetWizardCape(); //reset hat when it moves off the  screen
     }
 
@@ -280,10 +280,10 @@ function resetBomb() {
 
 function resetWizardHat() {
     // stops moving
-    wizardHat.velocity.x = 0;
-    wizardHat.y = random(0, 300);
+    wizardHat.velocity.y = 0;
+    wizardHat.x = random(50, width - 50);
     // hat moves back to left side
-    wizardHat.x = -100;
+    wizardHat.y = -100;
     wizardHat.moving = false;
     // calculates a new delay
     const delay = random(wizardHat.minDelay, wizardHat.maxDelay);
@@ -292,18 +292,18 @@ function resetWizardHat() {
 
 
 function resetWizardWand() {
-    wizardWand.velocity.x = 0;
-    wizardWand.x = -100;
-    wizardWand.y = random(0, 300);
+    wizardWand.velocity.y = 0;
+    wizardWand.x = random(50, width - 50);
+    wizardWand.y = -100;
     wizardWand.moving = false;
     const delay = random(wizardWand.minDelay, wizardWand.maxDelay);
     setTimeout(startWizardWand, delay);
 }
 
 function resetWizardCape() {
-    wizardCape.velocity.x = 0;
-    wizardCape.y = random(0, 300);
-    wizardCape.x = -100;
+    wizardCape.velocity.y = 0;
+    wizardCape.x = random(50, width - 50);
+    wizardCape.y = -100;
     wizardCape.moving = false;
     const delay = random(wizardCape.minDelay, wizardCape.maxDelay);
     setTimeout(startWizardCape, delay);
@@ -311,7 +311,7 @@ function resetWizardCape() {
 
 function startWizardHat() {
     if (!wizardHat.caught && !wizardWand.moving && !wizardCape.moving) { //if wizard hat isnt caught and the others arent moving
-        wizardHat.velocity.x = wizardHat.speed; //change the velocity from 0 to set speed
+        wizardHat.velocity.y = wizardHat.speed; //change the velocity from 0 to set speed
         wizardHat.moving = true;
 
     }
@@ -324,7 +324,7 @@ function startWizardHat() {
 
 function startWizardWand() {
     if (!wizardWand.caught && !wizardHat.moving && !wizardCape.moving) { //if wizard wand isnt caught and the others arent moving
-        wizardWand.velocity.x = wizardWand.speed; //change the velocity from 0 to set speed
+        wizardWand.velocity.y = wizardWand.speed; //change the velocity from 0 to set speed
         wizardWand.moving = true;
     }
 
@@ -336,7 +336,7 @@ function startWizardWand() {
 
 function startWizardCape() {
     if (!wizardCape.caught && !wizardHat.moving && !wizardWand.moving) { //if wizard cape isnt caught and the others arent moving
-        wizardCape.velocity.x = wizardCape.speed; //change the velocity from 0 to set speed
+        wizardCape.velocity.y = wizardCape.speed; //change the velocity from 0 to set speed
         wizardCape.moving = true;
     }
 
