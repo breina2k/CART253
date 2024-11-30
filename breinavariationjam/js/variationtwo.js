@@ -48,7 +48,7 @@ const frog = {
 //the bomb you have to avoid
 const bomb = {
     x: 0,
-    y: 200, // Will be random
+    y: 0, // Will be random
     size: 80,
     speed: 10 // it was too easy to win, bombs can run now
 };
@@ -196,8 +196,8 @@ function lose() {
 
 function moveBomb() {
     // moves bomb across the screen w speed
-    bomb.x += bomb.speed;
-    if (bomb.x > width) {
+    bomb.y += bomb.speed;
+    if (bomb.y > height) {
         resetBomb(); // reset bomb to left off the screen
     }
 }
@@ -274,8 +274,8 @@ function resetGame() {
 
 
 function resetBomb() {
-    bomb.x = 0;
-    bomb.y = random(0, 300); //randomizes the y value
+    bomb.x = random(50, width - 50); //evenly distributes the random bombs
+    bomb.y = -100; // start bomb off screen
 }
 
 function resetWizardHat() {
