@@ -3,7 +3,7 @@
  * Breina Kelly
  * 
  * Pond City is in danger! Evil Frog is mad af and the player needs to collect wizard frogs costume so he can fight!
- * They'll do this by catching the correct set of items by moving the center frog and launching the tongue to capture the item.
+ *  They'll do this by catching the correct set of items by moving the center frog and launching the tongue to capture the item.
  * Catch the three right items and you've won! Catch the wrong item and Evil Frog wins :(
  * 
  * Instructions (for me, real instructions will be in Read Me):
@@ -34,17 +34,26 @@ const frog = {
         y: 420,
         size: 200
     },
+    // The frog's tongue has a position, size, speed, and state
+    tongue: {
+        x: undefined,
+        y: 480,
+        size: 20,
+        speed: 20,
+        // Determines how the tongue moves each frame
+        state: "idle" // State can be: idle, outbound, inbound
+    }
 };
 
 //the bomb you have to avoid
 const bomb = {
     x: 0,
-    y: 0, // Will be random
+    y: 200, // Will be random
     size: 80,
     speed: 10 // it was too easy to win, bombs can run now
 };
 
-//the wizard hat you need to catch
+//the wizarrd hat you need to catch
 const wizardHat = {
     x: -100, // starting off the screen
     y: 200,
@@ -134,7 +143,7 @@ function draw() {
         background(bgImg);
         moveBomb();
         moveFrog();
-        // moveTongue();
+        moveTongue();
         moveWizardHat();
         moveWizardWand();
         moveWizardCape();
@@ -146,10 +155,10 @@ function draw() {
         drawWizardWand();
         drawWizardCape();
 
-        // checkTongueBombOverlap();
-        // checkTongueWizardHatOverlap();
-        // checkTongueWizardWandOverlap();
-        // checkTongueWizardCapeOverlap();
+        checkTongueBombOverlap();
+        checkTongueWizardHatOverlap();
+        checkTongueWizardWandOverlap();
+        checkTongueWizardCapeOverlap();
         // all functions used in gameplay
 
     }
@@ -187,44 +196,44 @@ function lose() {
 
 function moveBomb() {
     // moves bomb across the screen w speed
-    bomb.y += bomb.speed;
-    if (bomb.y > height) {
-        resetBomb();
+    bomb.x += bomb.speed;
+    if (bomb.x > width) {
+        resetBomb(); // reset bomb to left off the screen
     }
 }
 
 function moveFrog() {
     frog.body.x = mouseX;
-} //frog moves along x according to mouse position
+} //frog movees along x according to mouse position
 
 
-// /**
-//  * Handles moving the tongue based on its state
-//  */
-// function moveTongue() {
-//     // Tongue matches the frog's x
-//     frog.tongue.x = frog.body.x;
-//     // If the tongue is idle, it doesn't do anything
-//     if (frog.tongue.state === "idle") {
-//         // Do nothing
-//     }
-//     // If the tongue is outbound, it moves up
-//     else if (frog.tongue.state === "outbound") {
-//         frog.tongue.y += -frog.tongue.speed;
-//         // The tongue bounces back if it hits the top
-//         if (frog.tongue.y <= 0) {
-//             frog.tongue.state = "inbound";
-//         }
-//     }
-//     // If the tongue is inbound, it moves down
-//     else if (frog.tongue.state === "inbound") {
-//         frog.tongue.y += frog.tongue.speed;
-//         // The tongue stops if it hits the bottom
-//         if (frog.tongue.y >= height) {
-//             frog.tongue.state = "idle";
-//         }
-//     }
-// }
+/**
+ * Handles moving the tongue based on its state
+ */
+function moveTongue() {
+    // Tongue matches the frog's x
+    frog.tongue.x = frog.body.x;
+    // If the tongue is idle, it doesn't do anything
+    if (frog.tongue.state === "idle") {
+        // Do nothing
+    }
+    // If the tongue is outbound, it moves up
+    else if (frog.tongue.state === "outbound") {
+        frog.tongue.y += -frog.tongue.speed;
+        // The tongue bounces back if it hits the top
+        if (frog.tongue.y <= 0) {
+            frog.tongue.state = "inbound";
+        }
+    }
+    // If the tongue is inbound, it moves down
+    else if (frog.tongue.state === "inbound") {
+        frog.tongue.y += frog.tongue.speed;
+        // The tongue stops if it hits the bottom
+        if (frog.tongue.y >= height) {
+            frog.tongue.state = "idle";
+        }
+    }
+}
 
 function moveWizardHat() {
     wizardHat.x += wizardHat.velocity.x; //move hat along x axis w set velocity
@@ -265,8 +274,8 @@ function resetGame() {
 
 
 function resetBomb() {
-    bomb.x = random(50, width - 50);
-    bomb.y = -80; //randomizes the y value
+    bomb.x = 0;
+    bomb.y = random(0, 300); //randomizes the y value
 }
 
 function resetWizardHat() {
@@ -403,78 +412,78 @@ function drawWizardCape() {
 }
 
 
-// function checkTongueBombOverlap() {
-//     // Get distance from tongue to fly
-//     const d = dist(frog.tongue.x, frog.tongue.y, bomb.x, bomb.y);
-//     // Check if it's an overlap
-//     const eaten = (d < frog.tongue.size / 2 + bomb.size / 2);
-//     if (eaten) {
-//         state = "lose";
-//         // Reset the bomb
-//         resetBomb();
-//         // Bring back the tongue
-//         frog.tongue.state = "inbound";
-//     }
-// }
+function checkTongueBombOverlap() {
+    // Get distance from tongue to fly
+    const d = dist(frog.tongue.x, frog.tongue.y, bomb.x, bomb.y);
+    // Check if it's an overlap
+    const eaten = (d < frog.tongue.size / 2 + bomb.size / 2);
+    if (eaten) {
+        state = "lose";
+        // Reset the bomb
+        resetBomb();
+        // Bring back the tongue
+        frog.tongue.state = "inbound";
+    }
+}
 
-// function checkTongueWizardHatOverlap() {
-//     const d = dist(frog.tongue.x, frog.tongue.y, wizardHat.x, wizardHat.y);
-//     const eaten = (d < frog.tongue.size / 2 + wizardHat.size / 2);
+function checkTongueWizardHatOverlap() {
+    const d = dist(frog.tongue.x, frog.tongue.y, wizardHat.x, wizardHat.y);
+    const eaten = (d < frog.tongue.size / 2 + wizardHat.size / 2);
 
-//     if (eaten) {
-//         counter = counter + 1;  // increase the counter
-//         wizardHat.caught = true; // set caught to true
-//         wizardHat.moving = false; // state that it is no longer moving
-//         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-//             state = "win"; //check if all three are true, then change state
-//             wizardWin = true;
-//         }
-//         // stop it from moving
-//         wizardHat.velocity.x = 0;
-//         // move it off the screen
-//         wizardHat.x = -10000;
-//         // Bring back the tongue
-//         frog.tongue.state = "inbound";
-//     }
-// }
+    if (eaten) {
+        counter = counter + 1;  // increase the counter
+        wizardHat.caught = true; // set caught to true
+        wizardHat.moving = false; // state that it is no longer moving
+        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+            state = "win"; //check if all three are true, then change state
+            wizardWin = true;
+        }
+        // stop it from moving
+        wizardHat.velocity.x = 0;
+        // move it off the screen
+        wizardHat.x = -10000;
+        // Bring back the tongue
+        frog.tongue.state = "inbound";
+    }
+}
 
-// function checkTongueWizardWandOverlap() {
-//     const d = dist(frog.tongue.x, frog.tongue.y, wizardWand.x, wizardWand.y);
-//     const eaten = (d < frog.tongue.size / 2 + wizardWand.size / 2);
+function checkTongueWizardWandOverlap() {
+    const d = dist(frog.tongue.x, frog.tongue.y, wizardWand.x, wizardWand.y);
+    const eaten = (d < frog.tongue.size / 2 + wizardWand.size / 2);
 
-//     if (eaten) {
-//         counter = counter + 1; //increase counter by one
-//         wizardWand.caught = true; //declare it caught
-//         wizardWand.moving = false; //declare it not moving
-//         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-//             state = "win"; //check if all three conditions are met then change to win screen
-//             wizardWin = true;
-//         }
+    if (eaten) {
+        counter = counter + 1; //increase counter by one
+        wizardWand.caught = true; //declare it caught
+        wizardWand.moving = false; //declare it not moving
+        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+            state = "win"; //check if all three conditions are met then change to win screen
+            wizardWin = true;
+        }
 
-//         wizardWand.velocity.x = 0;
-//         wizardWand.x = -10000;
-//         frog.tongue.state = "inbound";
-//     }
-// }
+        wizardWand.velocity.x = 0;
+        wizardWand.x = -10000;
+        frog.tongue.state = "inbound";
+    }
+}
 
-// function checkTongueWizardCapeOverlap() {
-//     const d = dist(frog.tongue.x, frog.tongue.y, wizardCape.x, wizardCape.y);
-//     const eaten = (d < frog.tongue.size / 2 + wizardCape.size / 2);
+function checkTongueWizardCapeOverlap() {
+    const d = dist(frog.tongue.x, frog.tongue.y, wizardCape.x, wizardCape.y);
+    const eaten = (d < frog.tongue.size / 2 + wizardCape.size / 2);
 
-//     if (eaten) {
-//         counter = counter + 1; //increase the counter by one
-//         wizardCape.caught = true; //set caught to true
-//         wizardCape.moving = false; //set moving to false
-//         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
-//             state = "win"; //check if all three conditions are met then set state to win
-//             wizardWin = true;
-//         }
+    if (eaten) {
+        counter = counter + 1; //increase the counter by one
+        wizardCape.caught = true; //set caught to true
+        wizardCape.moving = false; //set moving to false
+        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+            state = "win"; //check if all three conditions are met then set state to win
+            wizardWin = true;
+        }
 
-//         wizardCape.velocity.x = 0;
-//         wizardCape.x = -10000;
-//         frog.tongue.state = "inbound";
-//     }
-// }
+        wizardCape.velocity.x = 0;
+        wizardCape.x = -10000;
+        frog.tongue.state = "inbound";
+    }
+}
 
 // launch tongue on click
 function mousePressed() {
