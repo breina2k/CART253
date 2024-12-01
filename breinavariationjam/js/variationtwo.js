@@ -57,7 +57,6 @@ const wizardHat = {
     fill: "#ff0000", // red
     minDelay: 3000, // delay is how long the item will wait before it starts moving
     maxDelay: 7000,
-    caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
     moving: false, // when items are moving, other items will not appear
 };
 
@@ -74,7 +73,6 @@ const wizardWand = {
     fill: "#4287f5", // blue
     minDelay: 3000, // delay is how long the item will wait before it starts moving
     maxDelay: 7000,
-    caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
     moving: false, // when items are moving, other items will not appear
 };
 
@@ -91,7 +89,6 @@ const wizardCape = {
     fill: "#ffdd00", // yellow
     minDelay: 3000, // delay is how long the item will wait beefore it starts moving
     maxDelay: 7000,
-    caught: false, // item is currently not caught, when it is, itll stop appearing, and add 1 to counter
     moving: false, // when items are moving, other items will not appear
 };
 
@@ -271,7 +268,7 @@ function resetWizardCape() {
 }
 
 function startWizardHat() {
-    if (!wizardHat.caught && !wizardWand.moving && !wizardCape.moving) { //if wizard hat isnt caught and the others arent moving
+    if (!wizardWand.moving && !wizardCape.moving) { //if wizard hat isnt caught and the others arent moving
         wizardHat.velocity.y = wizardHat.speed; //change the velocity from 0 to set speed
         wizardHat.moving = true;
 
@@ -284,7 +281,7 @@ function startWizardHat() {
 }
 
 function startWizardWand() {
-    if (!wizardWand.caught && !wizardHat.moving && !wizardCape.moving) { //if wizard wand isnt caught and the others arent moving
+    if (!wizardHat.moving && !wizardCape.moving) { //if wizard wand isnt caught and the others arent moving
         wizardWand.velocity.y = wizardWand.speed; //change the velocity from 0 to set speed
         wizardWand.moving = true;
     }
@@ -296,7 +293,7 @@ function startWizardWand() {
 }
 
 function startWizardCape() {
-    if (!wizardCape.caught && !wizardHat.moving && !wizardWand.moving) { //if wizard cape isnt caught and the others arent moving
+    if (!wizardHat.moving && !wizardWand.moving) { //if wizard cape isnt caught and the others arent moving
         wizardCape.velocity.y = wizardCape.speed; //change the velocity from 0 to set speed
         wizardCape.moving = true;
     }
@@ -381,18 +378,14 @@ function checkTongueWizardHatOverlap() {
     const d = dist(frog.body.x, frog.body.y, wizardHat.x, wizardHat.y);
     const eaten = (d < frog.body.size / 2 + wizardHat.size / 2);
 
-    if (eaten) {
-        progressBar = progressBar + 1;  // increase the counter
-        wizardHat.caught = true; // set caught to true
+    if (eaten && wizardHat.moving) {
+        progressBar++;  // increase the counter
         wizardHat.moving = false; // state that it is no longer moving
-        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+        resetWizardHat();
+        if (progressBar >= 10) {
             state = "win"; //check if all three are true, then change state
             wizardWin = true;
         }
-        // stop it from moving
-        wizardHat.velocity.x = 0;
-        // move it off the screen
-        wizardHat.x = -10000;
     }
 }
 
@@ -400,17 +393,14 @@ function checkTongueWizardWandOverlap() {
     const d = dist(frog.body.x, frog.body.y, wizardWand.x, wizardWand.y);
     const eaten = (d < frog.body.size / 2 + wizardWand.size / 2);
 
-    if (eaten) {
-        progressBar = progressBar + 1; //increase counter by one
-        wizardWand.caught = true; //declare it caught
+    if (eaten && wizardWand.moving) {
+        progressBar++; //increase counter by one
         wizardWand.moving = false; //declare it not moving
-        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+        resetWizardWand();
+        if (progressBar >= 10) {
             state = "win"; //check if all three conditions are met then change to win screen
             wizardWin = true;
         }
-
-        wizardWand.velocity.x = 0;
-        wizardWand.x = -10000;
     }
 }
 
@@ -418,17 +408,14 @@ function checkTongueWizardCapeOverlap() {
     const d = dist(frog.body.x, frog.body.y, wizardCape.x, wizardCape.y);
     const eaten = (d < frog.body.size / 2 + wizardCape.size / 2);
 
-    if (eaten) {
-        progressBar = progressBar + 1; //increase the counter by one
-        wizardCape.caught = true; //set caught to true
+    if (eaten && wizardCape.moving) {
+        progressBar++; //increase the counter by one
         wizardCape.moving = false; //set moving to false
-        if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
+        resetWizardCape();
+        if (progressBar >= 10) {
             state = "win"; //check if all three conditions are met then set state to win
             wizardWin = true;
         }
-
-        wizardCape.velocity.x = 0;
-        wizardCape.x = -10000;
     }
 }
 
