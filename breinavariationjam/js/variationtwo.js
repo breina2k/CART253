@@ -96,7 +96,7 @@ const wizardCape = {
 };
 
 let state = "title"; //starting title screen
-let counter = 0; //current score
+let progressBar = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
 let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
@@ -138,7 +138,7 @@ function draw() {
         moveWizardWand();
         moveWizardCape();
 
-        drawCounter();
+        drawProgressBar();
         drawBomb();
         drawFrog();
         drawWizardHat();
@@ -223,7 +223,7 @@ function moveWizardCape() {
 
 function resetGame() {
     //reset all the variables to default
-    counter = 0;
+    progressBar = 0;
     wizardHat.caught = false;
     wizardWand.caught = false;
     wizardCape.caught = false;
@@ -243,9 +243,8 @@ function resetBomb() {
 function resetWizardHat() {
     // stops moving
     wizardHat.velocity.y = 0;
-    wizardHat.x = random(50, width - 50);
-    // hat moves back to left side
-    wizardHat.y = -100;
+    wizardHat.x = random(50, width - 50); //gives item random x value
+    wizardHat.y = -100; //starts itemoff screen
     wizardHat.moving = false;
     // calculates a new delay
     const delay = random(wizardHat.minDelay, wizardHat.maxDelay);
@@ -309,14 +308,19 @@ function startWizardCape() {
 }
 
 
-function drawCounter() {
+function drawProgressBar() {
     push();
+    //progress bar outline
+    noFill();
+    stroke(255);
+    strokeWeight(4);
+    rect(450, 20, width / 4, 20, 10); //top left, 1/4 of the screen width with rounded corners!
+
+    //progress bar fill apparently i can draw both of these in the same function! cool!
     fill("white");
     noStroke();
-    textSize(64);
-    textStyle(BOLD);
-    textAlign(RIGHT, TOP);
-    text(counter + " / 3", width - 20, 20); //this setup lets me embed my counter variable into a  string of text! atleast thats what google told me
+    rect(450, 20, (progressBar / 10) * (width / 4), 20, 10);
+    pop();
 }
 
 
@@ -378,7 +382,7 @@ function checkTongueWizardHatOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardHat.size / 2);
 
     if (eaten) {
-        counter = counter + 1;  // increase the counter
+        progressBar = progressBar + 1;  // increase the counter
         wizardHat.caught = true; // set caught to true
         wizardHat.moving = false; // state that it is no longer moving
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
@@ -397,7 +401,7 @@ function checkTongueWizardWandOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardWand.size / 2);
 
     if (eaten) {
-        counter = counter + 1; //increase counter by one
+        progressBar = progressBar + 1; //increase counter by one
         wizardWand.caught = true; //declare it caught
         wizardWand.moving = false; //declare it not moving
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
@@ -415,7 +419,7 @@ function checkTongueWizardCapeOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardCape.size / 2);
 
     if (eaten) {
-        counter = counter + 1; //increase the counter by one
+        progressBar = progressBar + 1; //increase the counter by one
         wizardCape.caught = true; //set caught to true
         wizardCape.moving = false; //set moving to false
         if (wizardHat.caught && wizardWand.caught && wizardCape.caught) {
