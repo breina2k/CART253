@@ -378,7 +378,7 @@ function checkTongueWizardHatOverlap() {
     const d = dist(frog.body.x, frog.body.y, wizardHat.x, wizardHat.y);
     const eaten = (d < frog.body.size / 2 + wizardHat.size / 2);
 
-    if (eaten && wizardHat.moving) {
+    if (eaten && wizardHat.moving) { //item gets stuck in an infinite caught loop if i dont do this...wtf
         progressBar++;  // increase the counter
         wizardHat.moving = false; // state that it is no longer moving
         resetWizardHat();
@@ -394,11 +394,11 @@ function checkTongueWizardWandOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardWand.size / 2);
 
     if (eaten && wizardWand.moving) {
-        progressBar++; //increase counter by one
-        wizardWand.moving = false; //declare it not moving
+        progressBar++;
+        wizardWand.moving = false;
         resetWizardWand();
         if (progressBar >= 10) {
-            state = "win"; //check if all three conditions are met then change to win screen
+            state = "win";
             wizardWin = true;
         }
     }
@@ -409,11 +409,11 @@ function checkTongueWizardCapeOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardCape.size / 2);
 
     if (eaten && wizardCape.moving) {
-        progressBar++; //increase the counter by one
-        wizardCape.moving = false; //set moving to false
+        progressBar++;
+        wizardCape.moving = false;
         resetWizardCape();
         if (progressBar >= 10) {
-            state = "win"; //check if all three conditions are met then set state to win
+            state = "win";
             wizardWin = true;
         }
     }
