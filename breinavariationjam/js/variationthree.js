@@ -93,7 +93,7 @@ const wizardCape = {
 };
 
 let state = "title"; //starting title screen
-let progressBar = 0; //current score
+let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
 let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
@@ -181,13 +181,13 @@ function lose() {
 }
 
 
-function moveBomb() {
-    // moves bomb across the screen w speed
-    bomb.y += bomb.speed;
-    if (bomb.y > height) {
-        resetBomb(); // reset bomb to left off the screen
-    }
-}
+// function moveBomb() {
+//     // moves bomb across the screen w speed
+//     bomb.y += bomb.speed;
+//     if (bomb.y > height) {
+//         resetBomb(); // reset bomb to left off the screen
+//     }
+// }
 
 function moveFrog() {
     if (keyIsDown(LEFT_ARROW)) {
@@ -205,27 +205,27 @@ function moveFrog() {
 }
 
 
-function moveWizardHat() {
-    wizardHat.y += wizardHat.velocity.y; //move hat along x axis w set velocity
-    if (wizardHat.y > height) {
-        resetWizardHat(); //reset hat when it moves off the  screen
-    }
-}
+// function moveWizardHat() {
+//     wizardHat.y += wizardHat.velocity.y; //move hat along x axis w set velocity
+//     if (wizardHat.y > height) {
+//         resetWizardHat(); //reset hat when it moves off the  screen
+//     }
+// }
 
-function moveWizardWand() {
-    wizardWand.y += wizardWand.velocity.y; //move hat along x axis w set velocity
-    if (wizardWand.y > height) {
-        resetWizardWand(); //reset hat when it moves off the  screen
-    }
-}
+// function moveWizardWand() {
+//     wizardWand.y += wizardWand.velocity.y; //move hat along x axis w set velocity
+//     if (wizardWand.y > height) {
+//         resetWizardWand(); //reset hat when it moves off the  screen
+//     }
+// }
 
-function moveWizardCape() {
-    wizardCape.y += wizardCape.velocity.y; //move hat along x axis w set velocity
-    if (wizardCape.y > height) {
-        resetWizardCape(); //reset hat when it moves off the  screen
-    }
+// function moveWizardCape() {
+//     wizardCape.y += wizardCape.velocity.y; //move hat along x axis w set velocity
+//     if (wizardCape.y > height) {
+//         resetWizardCape(); //reset hat when it moves off the  screen
+//     }
 
-}
+// }
 
 
 
@@ -278,57 +278,52 @@ function resetWizardCape() {
     setTimeout(startWizardCape, delay);
 }
 
-function startWizardHat() {
-    if (!wizardWand.moving && !wizardCape.moving) { //if wizard hat isnt caught and the others arent moving
-        wizardHat.velocity.y = wizardHat.speed; //change the velocity from 0 to set speed
-        wizardHat.moving = true;
+// function startWizardHat() {
+//     if (!wizardWand.moving && !wizardCape.moving) { //if wizard hat isnt caught and the others arent moving
+//         wizardHat.velocity.y = wizardHat.speed; //change the velocity from 0 to set speed
+//         wizardHat.moving = true;
 
-    }
+//     }
 
-    else {
-        resetWizardHat(); //reset so it waits for its turn and keeps checking w start function
-    }
+//     else {
+//         resetWizardHat(); //reset so it waits for its turn and keeps checking w start function
+//     }
 
-}
+// }
 
-function startWizardWand() {
-    if (!wizardHat.moving && !wizardCape.moving) { //if wizard wand isnt caught and the others arent moving
-        wizardWand.velocity.y = wizardWand.speed; //change the velocity from 0 to set speed
-        wizardWand.moving = true;
-    }
+// function startWizardWand() {
+//     if (!wizardHat.moving && !wizardCape.moving) { //if wizard wand isnt caught and the others arent moving
+//         wizardWand.velocity.y = wizardWand.speed; //change the velocity from 0 to set speed
+//         wizardWand.moving = true;
+//     }
 
-    else {
-        resetWizardWand();
-    }
+//     else {
+//         resetWizardWand();
+//     }
 
-}
+// }
 
-function startWizardCape() {
-    if (!wizardHat.moving && !wizardWand.moving) { //if wizard cape isnt caught and the others arent moving
-        wizardCape.velocity.y = wizardCape.speed; //change the velocity from 0 to set speed
-        wizardCape.moving = true;
-    }
+// function startWizardCape() {
+//     if (!wizardHat.moving && !wizardWand.moving) { //if wizard cape isnt caught and the others arent moving
+//         wizardCape.velocity.y = wizardCape.speed; //change the velocity from 0 to set speed
+//         wizardCape.moving = true;
+//     }
 
-    else {
-        resetWizardCape();
-    }
+//     else {
+//         resetWizardCape();
+//     }
 
-}
+// }
 
 
-function drawProgressBar() {
+function drawCounter() {
     push();
-    //progress bar outline
-    noFill();
-    stroke(255);
-    strokeWeight(4);
-    rect(450, 20, width / 4, 20, 10); //top left, 1/4 of the screen width with rounded corners!
-
-    //progress bar fill apparently i can draw both of these in the same function! cool!
     fill("white");
     noStroke();
-    rect(450, 20, (progressBar / 10) * (width / 4), 20, 10);
-    pop();
+    textSize(64);
+    textStyle(BOLD);
+    textAlign(RIGHT, TOP);
+    text(counter + " / 3", width - 20, 20); //this setup lets me embed my counter variable into a  string of text! atleast thats what google told me
 }
 
 
@@ -390,7 +385,7 @@ function checkTongueWizardHatOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardHat.size / 2);
 
     if (eaten && wizardHat.moving) { //item gets stuck in an infinite caught loop if i dont do this...wtf
-        progressBar++;  // increase the counter
+        counter = counter + 1; //increase the counter by one
         wizardHat.moving = false; // state that it is no longer moving
         resetWizardHat();
         if (progressBar >= 10) {
@@ -405,7 +400,7 @@ function checkTongueWizardWandOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardWand.size / 2);
 
     if (eaten && wizardWand.moving) {
-        progressBar++;
+        counter = counter + 1; //increase the counter by one
         wizardWand.moving = false;
         resetWizardWand();
         if (progressBar >= 10) {
@@ -420,7 +415,7 @@ function checkTongueWizardCapeOverlap() {
     const eaten = (d < frog.body.size / 2 + wizardCape.size / 2);
 
     if (eaten && wizardCape.moving) {
-        progressBar++;
+        counter = counter + 1; //increase the counter by one
         wizardCape.moving = false;
         resetWizardCape();
         if (progressBar >= 10) {
