@@ -36,61 +36,61 @@ const frog = {
     },
 };
 
-//the bomb you have to avoid
-const bomb = {
-    x: 0,
-    y: 0, // Will be random
-    size: 80,
-    speed: 10 // it was too easy to win, bombs can run now
-};
+// //the bomb you have to avoid
+// const bomb = {
+//     x: 0,
+//     y: 0, // Will be random
+//     size: 80,
+//     speed: 10 // it was too easy to win, bombs can run now
+// };
 
-//the wizarrd hat you need to catch
-const wizardHat = {
-    x: 0,
-    y: -100, // starting off the top
-    size: 80,
-    velocity: {
-        x: 0,
-        y: 0
-    }, // the starting velocity aka not moving
-    speed: 8, // how fast it'll go
-    fill: "#ff0000", // red
-    minDelay: 3000, // delay is how long the item will wait before it starts moving
-    maxDelay: 7000,
-    moving: false, // when items are moving, other items will not appear
-};
+// //the wizarrd hat you need to catch
+// const wizardHat = {
+//     x: 0,
+//     y: -100, // starting off the top
+//     size: 80,
+//     velocity: {
+//         x: 0,
+//         y: 0
+//     }, // the starting velocity aka not moving
+//     speed: 8, // how fast it'll go
+//     fill: "#ff0000", // red
+//     minDelay: 3000, // delay is how long the item will wait before it starts moving
+//     maxDelay: 7000,
+//     moving: false, // when items are moving, other items will not appear
+// };
 
-//the wand you need to catch
-const wizardWand = {
-    x: 0,
-    y: -100, // starting off the top
-    size: 80,
-    velocity: {
-        x: 0,
-        y: 0
-    }, // the starting velocity aka not moving
-    speed: 8, // how fast it'll go
-    fill: "#4287f5", // blue
-    minDelay: 3000, // delay is how long the item will wait before it starts moving
-    maxDelay: 7000,
-    moving: false, // when items are moving, other items will not appear
-};
+// //the wand you need to catch
+// const wizardWand = {
+//     x: 0,
+//     y: -100, // starting off the top
+//     size: 80,
+//     velocity: {
+//         x: 0,
+//         y: 0
+//     }, // the starting velocity aka not moving
+//     speed: 8, // how fast it'll go
+//     fill: "#4287f5", // blue
+//     minDelay: 3000, // delay is how long the item will wait before it starts moving
+//     maxDelay: 7000,
+//     moving: false, // when items are moving, other items will not appear
+// };
 
-//the cape you need to catch
-const wizardCape = {
-    x: 0,
-    y: -100, // starting off the screen
-    size: 80,
-    velocity: {
-        x: 0,
-        y: 0
-    }, // the starting velocity aka not moving
-    speed: 8, // how fast it'll go
-    fill: "#ffdd00", // yellow
-    minDelay: 3000, // delay is how long the item will wait beefore it starts moving
-    maxDelay: 7000,
-    moving: false, // when items are moving, other items will not appear
-};
+// //the cape you need to catch
+// const wizardCape = {
+//     x: 0,
+//     y: -100, // starting off the screen
+//     size: 80,
+//     velocity: {
+//         x: 0,
+//         y: 0
+//     }, // the starting velocity aka not moving
+//     speed: 8, // how fast it'll go
+//     fill: "#ffdd00", // yellow
+//     minDelay: 3000, // delay is how long the item will wait beefore it starts moving
+//     maxDelay: 7000,
+//     moving: false, // when items are moving, other items will not appear
+// };
 
 let state = "title"; //starting title screen
 let progressBar = 0; //current score
@@ -102,13 +102,14 @@ let wizardItems = [
     { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Hat
     { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Wand
     { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Cape
+    { x: 0, y: 0, size: 80, caught: false, img: null }, // bomb
 ];
 
 function preload() {
     wizardItems[0] = loadImage('assets/images/wizardHatBubble.png');
     wizardItems[1] = loadImage('assets/images/wizardWandBubble.png');
     wizardItems[2] = loadImage('assets/images/wizardCapeBubble.png');
-    bombImg = loadImage('assets/images/bomb.png');
+    wizardItems[3] = loadImage('assets/images/bomb.png');
     frogImg = loadImage('assets/images/wizardFrog.png');
     titleImg = loadImage('assets/images/title.png');
     winImg = loadImage('assets/images/win.png');
