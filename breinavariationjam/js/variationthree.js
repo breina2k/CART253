@@ -36,80 +36,32 @@ const frog = {
     },
 };
 
-// //the bomb you have to avoid
-// const bomb = {
-//     x: 0,
-//     y: 0, // Will be random
-//     size: 80,
-//     speed: 10 // it was too easy to win, bombs can run now
-// };
+//the bomb you have to avoid
+const bomb = {
+    x: 0,
+    y: 0, // Will be random
+    size: 80,
+    speed: 10 // it was too easy to win, bombs can run now
+};
 
-// //the wizarrd hat you need to catch
-// const wizardHat = {
-//     x: 0,
-//     y: -100, // starting off the top
-//     size: 80,
-//     velocity: {
-//         x: 0,
-//         y: 0
-//     }, // the starting velocity aka not moving
-//     speed: 8, // how fast it'll go
-//     fill: "#ff0000", // red
-//     minDelay: 3000, // delay is how long the item will wait before it starts moving
-//     maxDelay: 7000,
-//     moving: false, // when items are moving, other items will not appear
-// };
-
-// //the wand you need to catch
-// const wizardWand = {
-//     x: 0,
-//     y: -100, // starting off the top
-//     size: 80,
-//     velocity: {
-//         x: 0,
-//         y: 0
-//     }, // the starting velocity aka not moving
-//     speed: 8, // how fast it'll go
-//     fill: "#4287f5", // blue
-//     minDelay: 3000, // delay is how long the item will wait before it starts moving
-//     maxDelay: 7000,
-//     moving: false, // when items are moving, other items will not appear
-// };
-
-// //the cape you need to catch
-// const wizardCape = {
-//     x: 0,
-//     y: -100, // starting off the screen
-//     size: 80,
-//     velocity: {
-//         x: 0,
-//         y: 0
-//     }, // the starting velocity aka not moving
-//     speed: 8, // how fast it'll go
-//     fill: "#ffdd00", // yellow
-//     minDelay: 3000, // delay is how long the item will wait beefore it starts moving
-//     maxDelay: 7000,
-//     moving: false, // when items are moving, other items will not appear
-// };
 
 let state = "title"; //starting title screen
 let progressBar = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
-let wizardHatImg, wizardWandImg, wizardCapeImg, bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
+let bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
 
 let wizardItems = [
     { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Hat
     { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Wand
     { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Cape
-    { x: 0, y: 0, size: 80, caught: false, img: null }, // bomb
 ];
 
 function preload() {
-    wizardItems[0] = loadImage('assets/images/wizardHatBubble.png');
-    wizardItems[1] = loadImage('assets/images/wizardWandBubble.png');
-    wizardItems[2] = loadImage('assets/images/wizardCapeBubble.png');
-    wizardItems[3] = loadImage('assets/images/bomb.png');
+    wizardItems[0].img = loadImage('assets/images/wizardHatBubble.png');
+    wizardItems[1].img = loadImage('assets/images/wizardWandBubble.png');
+    wizardItems[2].img = loadImage('assets/images/wizardCapeBubble.png');
+    bombImg = loadImage('assets/images/bomb.png');
     frogImg = loadImage('assets/images/wizardFrog.png');
     titleImg = loadImage('assets/images/title.png');
     winImg = loadImage('assets/images/win.png');
@@ -124,9 +76,7 @@ function setup() {
 
     // start positions
     resetBomb();
-    resetWizardHat();
-    resetWizardWand();
-    resetWizardCape();
+    resetWizardItems();
 }
 
 function draw() {
@@ -136,24 +86,15 @@ function draw() {
     }
     else if (state === "wizard") {
         background(bgImg);
-        moveBomb();
         moveFrog();
-        moveWizardHat();
-        moveWizardWand();
-        moveWizardCape();
 
         drawProgressBar();
-        drawBomb();
         drawFrog();
-        drawWizardHat();
-        drawWizardWand();
-        drawWizardCape();
+        drawBomb();
+        drawWizardItems();
 
-        checkTongueBombOverlap();
-        checkTongueWizardHatOverlap();
-        checkTongueWizardWandOverlap();
-        checkTongueWizardCapeOverlap();
-        // all functions used in gameplay
+        checkFrogWizardItemsOverlap();
+        checkFrogBombOverlap();
 
     }
 
@@ -187,14 +128,18 @@ function lose() {
     pop();
 }
 
-
-function moveBomb() {
-    // moves bomb across the screen w speed
-    bomb.y += bomb.speed;
-    if (bomb.y > height) {
-        resetBomb(); // reset bomb to left off the screen
-    }
+/**
+ * Displays the tongue (tip and line connection) and the frog (body)
+ */
+function drawFrog() {
+    // Draw the frog's body
+    push();
+    fill("#c2d64f");
+    noStroke();
+    image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250); //picture anchorpoint was wonky needed to adjust
+    pop();
 }
+
 
 function moveFrog() {
     if (keyIsDown(LEFT_ARROW)) {
@@ -212,30 +157,6 @@ function moveFrog() {
 }
 
 
-function moveWizardHat() {
-    wizardHat.y += wizardHat.velocity.y; //move hat along x axis w set velocity
-    if (wizardHat.y > height) {
-        resetWizardHat(); //reset hat when it moves off the  screen
-    }
-}
-
-function moveWizardWand() {
-    wizardWand.y += wizardWand.velocity.y; //move hat along x axis w set velocity
-    if (wizardWand.y > height) {
-        resetWizardWand(); //reset hat when it moves off the  screen
-    }
-}
-
-function moveWizardCape() {
-    wizardCape.y += wizardCape.velocity.y; //move hat along x axis w set velocity
-    if (wizardCape.y > height) {
-        resetWizardCape(); //reset hat when it moves off the  screen
-    }
-
-}
-
-
-
 function resetGame() {
     //reset all the variables to default
     progressBar = 0;
@@ -243,9 +164,7 @@ function resetGame() {
     wizardWand.caught = false;
     wizardCape.caught = false;
     resetBomb();
-    resetWizardHat();
-    resetWizardWand();
-    resetWizardCape();
+    resetWizardItems();
     state = "title"; //bring back to titlescreen
 }
 
@@ -255,72 +174,14 @@ function resetBomb() {
     bomb.y = -100; // start bomb off screen
 }
 
-function resetWizardHat() {
-    // stops moving
-    wizardHat.velocity.y = 0;
-    wizardHat.x = random(50, width - 50); //gives item random x value
-    wizardHat.y = -100; //starts itemoff screen
-    wizardHat.moving = false;
-    // calculates a new delay
-    const delay = random(wizardHat.minDelay, wizardHat.maxDelay);
-    setTimeout(startWizardHat, delay);
+function resetWizardItems() {
+    for (let item of wizardItems) {
+        item.x = random(0, width);
+        item.y = random(0, height);
+        item.caught = false;
+    }
 }
 
-
-function resetWizardWand() {
-    wizardWand.velocity.y = 0;
-    wizardWand.x = random(50, width - 50);
-    wizardWand.y = -100;
-    wizardWand.moving = false;
-    const delay = random(wizardWand.minDelay, wizardWand.maxDelay);
-    setTimeout(startWizardWand, delay);
-}
-
-function resetWizardCape() {
-    wizardCape.velocity.y = 0;
-    wizardCape.x = random(50, width - 50);
-    wizardCape.y = -100;
-    wizardCape.moving = false;
-    const delay = random(wizardCape.minDelay, wizardCape.maxDelay);
-    setTimeout(startWizardCape, delay);
-}
-
-function startWizardHat() {
-    if (!wizardWand.moving && !wizardCape.moving) { //if wizard hat isnt caught and the others arent moving
-        wizardHat.velocity.y = wizardHat.speed; //change the velocity from 0 to set speed
-        wizardHat.moving = true;
-
-    }
-
-    else {
-        resetWizardHat(); //reset so it waits for its turn and keeps checking w start function
-    }
-
-}
-
-function startWizardWand() {
-    if (!wizardHat.moving && !wizardCape.moving) { //if wizard wand isnt caught and the others arent moving
-        wizardWand.velocity.y = wizardWand.speed; //change the velocity from 0 to set speed
-        wizardWand.moving = true;
-    }
-
-    else {
-        resetWizardWand();
-    }
-
-}
-
-function startWizardCape() {
-    if (!wizardHat.moving && !wizardWand.moving) { //if wizard cape isnt caught and the others arent moving
-        wizardCape.velocity.y = wizardCape.speed; //change the velocity from 0 to set speed
-        wizardCape.moving = true;
-    }
-
-    else {
-        resetWizardCape();
-    }
-
-}
 
 
 function drawProgressBar() {
@@ -346,40 +207,19 @@ function drawBomb() {
     pop();
 }
 
-
-
-/**
- * Displays the tongue (tip and line connection) and the frog (body)
- */
-function drawFrog() {
-    // Draw the frog's body
-    push();
-    fill("#c2d64f");
-    noStroke();
-    image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250); //picture anchorpoint was wonky needed to adjust
-    pop();
-}
-
-function drawWizardHat() {
-    push();
-    image(wizardHatImg, wizardHat.x, wizardHat.y, 80, 80); //loading bubble imagess
-    pop();
-}
-
-function drawWizardWand() {
-    push();
-    image(wizardWandImg, wizardWand.x, wizardWand.y, 80, 80);
-    pop();
-}
-
-function drawWizardCape() {
-    push();
-    image(wizardCapeImg, wizardCape.x, wizardCape.y, 80, 80);
-    pop();
+function drawWizardItems() {
+    for (let item of wizardItems) {
+        if (!item.caught) {
+            image(item.img, item.x - item.size / 2, item.y - item.size / 2, item.size, item.size);
+        }
+    }
 }
 
 
-function checkTongueBombOverlap() {
+
+
+
+function checkFrogBombOverlap() {
     const frogOverlapX = frog.body.x - 50; // adjusted for centering overlap
     // Get distance from tongue to fly
     const d = dist(frogOverlapX, frog.body.y, bomb.x, bomb.y);
@@ -392,50 +232,20 @@ function checkTongueBombOverlap() {
     }
 }
 
-function checkTongueWizardHatOverlap() {
-    const d = dist(frog.body.x, frog.body.y, wizardHat.x, wizardHat.y);
-    const eaten = (d < frog.body.size / 2 + wizardHat.size / 2);
-
-    if (eaten && wizardHat.moving) { //item gets stuck in an infinite caught loop if i dont do this...wtf
-        progressBar++;  // increase the counter
-        wizardHat.moving = false; // state that it is no longer moving
-        resetWizardHat();
-        if (progressBar >= 10) {
-            state = "win"; //check if all three are true, then change state
-            wizardWin = true;
+function checkFrogWizardItemsOverlap() {
+    for (let item of wizardItems) {
+        const d = dist(frog.body.x, frog.body.y, item.x, item.y);
+        const eaten = (d < frog.body.size / 2 + item.size / 2);
+        if (eaten && !item.caught) {
+            item.caught = true;
+            progressBar++;
+            if (progressBar === wizardItems.length) { // <-- Corrected to check progressBar
+                state = "win";
+            }
         }
     }
 }
 
-function checkTongueWizardWandOverlap() {
-    const d = dist(frog.body.x, frog.body.y, wizardWand.x, wizardWand.y);
-    const eaten = (d < frog.body.size / 2 + wizardWand.size / 2);
-
-    if (eaten && wizardWand.moving) {
-        progressBar++;  // increase the counter
-        wizardWand.moving = false;
-        resetWizardWand();
-        if (progressBar >= 10) {
-            state = "win";
-            wizardWin = true;
-        }
-    }
-}
-
-function checkTongueWizardCapeOverlap() {
-    const d = dist(frog.body.x, frog.body.y, wizardCape.x, wizardCape.y);
-    const eaten = (d < frog.body.size / 2 + wizardCape.size / 2);
-
-    if (eaten && wizardCape.moving) {
-        progressBar++;  // increase the counter
-        wizardCape.moving = false;
-        resetWizardCape();
-        if (progressBar >= 10) {
-            state = "win";
-            wizardWin = true;
-        }
-    }
-}
 
 function mousePressed() {
 
