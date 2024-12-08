@@ -188,6 +188,11 @@ function resetBomb() {
                 break;
             }
         }
+        const frogBombDist = dist(bomb.x, bomb.y, frog.body.x, frog.body.y)
+        const frogBombOverlap = (frogBombDist < bomb.size / 2 + frog.body.size / 2);
+        if (frogBombOverlap) {
+            bombOverlapping = true;
+        }
     }
 }
 
@@ -208,6 +213,11 @@ function resetWizardItems() {
                     itemsOverlapping = true;
                     break;// stop overlap check, go back to first loop!
                 }
+            }
+            const frogItemDist = dist(item.x, item.y, frog.body.x, frog.body.y)
+            const frogItemOverlap = (frogItemDist < item.size / 2 + frog.body.size / 2);
+            if (frogItemOverlap) {
+                itemsOverlapping = true;
             }
         }
     }
