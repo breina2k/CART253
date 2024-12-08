@@ -47,8 +47,6 @@ const bomb = {
 
 let state = "title"; //starting title screen
 let counter = 0; //current score
-let wizardWin = false; //youve gotta work for it
-let resetButton;
 let bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
 
 let wizardItems = [
@@ -176,18 +174,44 @@ function drawFrog() {
 
 
 function resetBomb() {
-    bomb.x = random(bomb.size / 2, width - bomb.size / 2);
-    bomb.y = random(bomb.size / 2, height - bomb.size / 2);
+    let bombOverlapping = true;
+    while (bombOverlapping) {
+        bomb.x = random(bomb.size / 2, width - bomb.size / 2);
+        bomb.y = random(bomb.size / 2, height - bomb.size / 2);
+        bombOverlapping = false;
+
+        for (let item of wizardItems) {
+            const d = dist(bomb.x, bomb.y, item.x, item.y);
+            const bombOverlap = (d < bomb.size / 2 + item.size / 2);
+            if (bombOverlap) {
+                bombOverlapping = true;
+                break;
+            }
+        }
+    }
 }
 
 function resetWizardItems() {
     for (let item of wizardItems) {
-        item.x = random(item.size / 2, width - item.size / 2);
-        item.y = random(item.size / 2, height - item.size / 2);
-        item.caught = false;
+        let itemsOverlapping = true;
+        while (itemsOverlapping) {//while loop means it will go when the condition is true, so if we set overlapping to true at the beginning it'll loop once, but then it'll loop again if my other for loop catches an overlap, this took me one million years
+            item.x = random(item.size / 2, width - item.size / 2);
+            item.y = random(item.size / 2, height - item.size / 2);
+            item.caught = false;
+            itemsOverlapping = false;
+
+            for (let otherItem of wizardItems) {
+                if (item === otherItem) continue; //so that items dont check for an overlap with themselves, causing stupid problems
+                const d = dist(item.x, item.y, otherItem.x, otherItem.y);
+                const itemOverlap = (d < item.size / 2 + otherItem.size / 2);
+                if (itemOverlap) {
+                    itemsOverlapping = true;
+                    break;// stop overlap check, go back to first loop!
+                }
+            }
+        }
     }
 }
-
 
 
 function drawCounter() {
