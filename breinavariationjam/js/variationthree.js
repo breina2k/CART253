@@ -128,17 +128,6 @@ function lose() {
     pop();
 }
 
-/**
- * Displays the tongue (tip and line connection) and the frog (body)
- */
-function drawFrog() {
-    // Draw the frog's body
-    push();
-    fill("#c2d64f");
-    noStroke();
-    image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250); //picture anchorpoint was wonky needed to adjust
-    pop();
-}
 
 
 function moveFrog() {
@@ -154,6 +143,9 @@ function moveFrog() {
     if (keyIsDown(DOWN_ARROW)) {
         frog.body.y += 3; // moves frog down when down arrow is held down
     }
+
+    frog.body.x = constrain(frog.body.x, 0, width);
+    frog.body.y = constrain(frog.body.y, 0, height);
 }
 
 
@@ -165,7 +157,21 @@ function resetGame() {
     }
     resetBomb();
     resetWizardItems();
+    frog.body.x = 320;
+    frog.body.y = 420;
     state = "title"; //bring back to titlescreen
+}
+
+/**
+ * Displays the tongue (tip and line connection) and the frog (body)
+ */
+function drawFrog() {
+    // Draw the frog's body
+    push();
+    fill("#c2d64f");
+    noStroke();
+    image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250); //picture anchorpoint was wonky needed to adjust
+    pop();
 }
 
 
