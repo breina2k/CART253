@@ -73,8 +73,8 @@ function setup() {
     createCanvas(640, 480);
 
     // start positions
-    resetBomb();
     resetWizardItems();
+    resetBomb();
 }
 
 function draw() {
@@ -153,8 +153,8 @@ function resetGame() {
     for (let item of wizardItems) {
         item.caught = false;
     }
-    resetBomb();
     resetWizardItems();
+    resetBomb();
     frog.body.x = 320;
     frog.body.y = 420;
     state = "title"; //bring back to titlescreen
@@ -170,30 +170,6 @@ function drawFrog() {
     noStroke();
     image(nakedFrogImg, frog.body.x - 125, frog.body.y - 105, 250, 250); //picture anchorpoint was wonky needed to adjust
     pop();
-}
-
-
-function resetBomb() {
-    let bombOverlapping = true;
-    while (bombOverlapping) {
-        bomb.x = random(bomb.size / 2, width - bomb.size / 2);
-        bomb.y = random(bomb.size / 2, height - bomb.size / 2);
-        bombOverlapping = false;
-
-        for (let item of wizardItems) {
-            const d = dist(bomb.x, bomb.y, item.x, item.y);
-            const bombOverlap = (d < bomb.size / 2 + item.size / 2);
-            if (bombOverlap) {
-                bombOverlapping = true;
-                break;
-            }
-        }
-        const frogBombDist = dist(bomb.x, bomb.y, frog.body.x, frog.body.y)
-        const frogBombOverlap = (frogBombDist < bomb.size / 2 + frog.body.size / 2);
-        if (frogBombOverlap) {
-            bombOverlapping = true;
-        }
-    }
 }
 
 function resetWizardItems() {
@@ -219,9 +195,49 @@ function resetWizardItems() {
             if (frogItemOverlap) {
                 itemsOverlapping = true;
             }
+            const counterItemsDist = dist(item.x, item.y, width - 20, 20)
+            const counterItemsOverlap = (counterItemsDist < item.size / 2 + 100);
+            if (counterItemsOverlap) {
+                itemsOverlapping = true;
+            }
+            const bombItemDist = dist(item.x, item.y, bomb.x, bomb.y);
+            const bombItemOverlap = (bombItemDist < item.size / 2 + bomb.size / 2);
+            if (bombItemOverlap) {
+                itemsOverlapping = true;
+            }
         }
     }
 }
+
+
+function resetBomb() {
+    let bombOverlapping = true;
+    while (bombOverlapping) {
+        bomb.x = random(bomb.size / 2, width - bomb.size / 2);
+        bomb.y = random(bomb.size / 2, height - bomb.size / 2);
+        bombOverlapping = false;
+
+        for (let item of wizardItems) {
+            const d = dist(bomb.x, bomb.y, item.x, item.y);
+            const bombOverlap = (d < bomb.size / 2 + item.size / 2);
+            if (bombOverlap) {
+                bombOverlapping = true;
+                break;
+            }
+        }
+        const frogBombDist = dist(bomb.x, bomb.y, frog.body.x, frog.body.y)
+        const frogBombOverlap = (frogBombDist < bomb.size / 2 + frog.body.size / 2);
+        if (frogBombOverlap) {
+            bombOverlapping = true;
+        }
+        const counterBombDist = dist(bomb.x, bomb.y, width - 20, 20)
+        const counterBombOverlap = (counterBombDist < bomb.size / 2 + 100);
+        if (counterBombOverlap) {
+            bombOverlapping = true;
+        }
+    }
+}
+
 
 
 function drawCounter() {
