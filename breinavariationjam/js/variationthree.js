@@ -46,7 +46,7 @@ const bomb = {
 
 
 let state = "title"; //starting title screen
-let progressBar = 0; //current score
+let counter = 0; //current score
 let wizardWin = false; //youve gotta work for it
 let resetButton;
 let bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
@@ -88,7 +88,7 @@ function draw() {
         background(bgImg);
         moveFrog();
 
-        drawProgressBar();
+        drawCounter();
         drawFrog();
         drawBomb();
         drawWizardItems();
@@ -159,7 +159,7 @@ function moveFrog() {
 
 function resetGame() {
     //reset all the variables to default
-    progressBar = 0;
+    counter = 0;
     wizardHat.caught = false;
     wizardWand.caught = false;
     wizardCape.caught = false;
@@ -170,33 +170,28 @@ function resetGame() {
 
 
 function resetBomb() {
-    bomb.x = random(50, width - 50); //evenly distributes the random bombs
-    bomb.y = -100; // start bomb off screen
+    bomb.x = random(bomb.size / 2, width - bomb.size / 2);
+    bomb.y = random(bomb.size / 2, height - bomb.size / 2);
 }
 
 function resetWizardItems() {
     for (let item of wizardItems) {
-        item.x = random(0, width);
-        item.y = random(0, height);
+        item.x = random(item.size / 2, width - item.size / 2);
+        item.y = random(item.size / 2, height - item.size / 2);
         item.caught = false;
     }
 }
 
 
 
-function drawProgressBar() {
+function drawCounter() {
     push();
-    //progress bar outline
-    noFill();
-    stroke(255);
-    strokeWeight(4);
-    rect(450, 20, width / 4, 20, 10); //top left, 1/4 of the screen width with rounded corners!
-
-    //progress bar fill apparently i can draw both of these in the same function! cool!
     fill("white");
     noStroke();
-    rect(450, 20, (progressBar / 10) * (width / 4), 20, 10);
-    pop();
+    textSize(64);
+    textStyle(BOLD);
+    textAlign(RIGHT, TOP);
+    text(counter + " / 3", width - 20, 20); //this setup lets me embed my counter variable into a  string of text! atleast thats what google told me
 }
 
 
@@ -238,8 +233,8 @@ function checkFrogWizardItemsOverlap() {
         const eaten = (d < frog.body.size / 2 + item.size / 2);
         if (eaten && !item.caught) {
             item.caught = true;
-            progressBar++;
-            if (progressBar === wizardItems.length) { // <-- Corrected to check progressBar
+            counter = counter + 1; //increase counter by one
+            if (counter === wizardItems.length) { // <-- Corrected to check progressBar
                 state = "win";
             }
         }
