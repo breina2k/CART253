@@ -160,9 +160,9 @@ function moveFrog() {
 function resetGame() {
     //reset all the variables to default
     counter = 0;
-    wizardHat.caught = false;
-    wizardWand.caught = false;
-    wizardCape.caught = false;
+    for (let item of wizardItems) {
+        item.caught = false;
+    }
     resetBomb();
     resetWizardItems();
     state = "title"; //bring back to titlescreen
