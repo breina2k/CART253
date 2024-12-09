@@ -73,8 +73,8 @@ function setup() {
     createCanvas(640, 480);
 
     // start positions
-    resetWizardItems();
-    resetBomb();
+    spawnItems(); //one function for items and bomb
+
 }
 
 function draw() {
@@ -153,10 +153,10 @@ function resetGame() {
     for (let item of wizardItems) {
         item.caught = false;
     }
-    resetWizardItems();
-    resetBomb();
+
     frog.body.x = 320;
     frog.body.y = 420;
+    spawnItems();
     state = "title"; //bring back to titlescreen
 }
 
@@ -172,72 +172,69 @@ function drawFrog() {
     pop();
 }
 
-function resetWizardItems() {
+function spawnItems() {
+    //first spawn items using for loop going through array
     for (let item of wizardItems) {
-        let itemsOverlapping = true;
-        while (itemsOverlapping) {//while loop means it will go when the condition is true, so if we set overlapping to true at the beginning it'll loop once, but then it'll loop again if my other for loop catches an overlap, this took me one million years
-            item.x = random(item.size / 2, width - item.size / 2);
-            item.y = random(item.size / 2, height - item.size / 2);
-            item.caught = false;
-            itemsOverlapping = false;
+        item.caught = false;
+        let validSpot = false;
 
-            for (let otherItem of wizardItems) {
-                if (item === otherItem) continue; //so that items dont check for an overlap with themselves, causing stupid problems
-                const d = dist(item.x, item.y, otherItem.x, otherItem.y);
-                const itemOverlap = (d < item.size / 2 + otherItem.size / 2);
-                if (itemOverlap) {
-                    itemsOverlapping = true;
-                    break;// stop overlap check, go back to first loop!
+        while (!validSpot) {//initially go through the while loop once and randomly place items
+            validSpot = true;
+            item.x = random(item.size, width - item.size);
+            item.y = random(item.size, height - item.size);
+
+            let d = dist(item.x, item.y, frog.body.x, frog.body.y); //check overlap with frog
+            if (d < item.size + frog.body.size) {
+                validSpot = false; //send back to while loop
+                continue; //continue through testing
+            }
+
+            d = dist(item.x, item.y, width - 20, 20); //check overlap with counter
+            if (d < item.size + 150) {
+                validSpot = false;
+                continue;
+            }
+
+            for (let otherItem of wizardItems) { //create otherItem to check overlap between items
+                if (otherItem === item) continue; //make sue item isn't being compared w itslf
+                d = dist(item.x, item.y, otherItem.x, otherItem.y);
+                if (d < item.size + otherItem.size) {
+                    validSpot = false;
+                    break;// end check here
                 }
-            }
-            const frogItemDist = dist(item.x, item.y, frog.body.x, frog.body.y)
-            const frogItemOverlap = (frogItemDist < item.size / 2 + frog.body.size / 2);
-            if (frogItemOverlap) {
-                itemsOverlapping = true;
-            }
-            const counterItemsDist = dist(item.x, item.y, width - 20, 20)
-            const counterItemsOverlap = (counterItemsDist < item.size / 2 + 100);
-            if (counterItemsOverlap) {
-                itemsOverlapping = true;
-            }
-            const bombItemDist = dist(item.x, item.y, bomb.x, bomb.y);
-            const bombItemOverlap = (bombItemDist < item.size / 2 + bomb.size / 2);
-            if (bombItemOverlap) {
-                itemsOverlapping = true;
             }
         }
     }
-}
 
+    //boolean check for bomb overlaps now
+    let validSpot = false;
+    while (!validSpot) { //same style while loop 
+        validSpot = true;
+        bomb.x = random(bomb.size, width - bomb.size);
+        bomb.y = random(bomb.size, height - bomb.size);
 
-function resetBomb() {
-    let bombOverlapping = true;
-    while (bombOverlapping) {
-        bomb.x = random(bomb.size / 2, width - bomb.size / 2);
-        bomb.y = random(bomb.size / 2, height - bomb.size / 2);
-        bombOverlapping = false;
+        let d = dist(bomb.x, bomb.y, frog.body.x, frog.body.y);
+        if (d < bomb.size + frog.body.size) {
+            validSpot = false;
+            continue;
+        }
 
+        d = dist(bomb.x, bomb.y, width - 20, 20);
+        if (d < bomb.size + 150) {
+            validSpot = false;
+            continue;
+        }
+
+        // Check overlap with items
         for (let item of wizardItems) {
-            const d = dist(bomb.x, bomb.y, item.x, item.y);
-            const bombOverlap = (d < bomb.size / 2 + item.size / 2);
-            if (bombOverlap) {
-                bombOverlapping = true;
+            d = dist(bomb.x, bomb.y, item.x, item.y);
+            if (d < bomb.size + item.size) {
+                validSpot = false;
                 break;
             }
         }
-        const frogBombDist = dist(bomb.x, bomb.y, frog.body.x, frog.body.y)
-        const frogBombOverlap = (frogBombDist < bomb.size / 2 + frog.body.size / 2);
-        if (frogBombOverlap) {
-            bombOverlapping = true;
-        }
-        const counterBombDist = dist(bomb.x, bomb.y, width - 20, 20)
-        const counterBombOverlap = (counterBombDist < bomb.size / 2 + 100);
-        if (counterBombOverlap) {
-            bombOverlapping = true;
-        }
     }
 }
-
 
 
 function drawCounter() {
@@ -249,7 +246,6 @@ function drawCounter() {
     textAlign(RIGHT, TOP);
     text(counter + " / 3", width - 20, 20); //this setup lets me embed my counter variable into a  string of text! atleast thats what google told me
 }
-
 
 function drawBomb() {
     push();
@@ -267,19 +263,13 @@ function drawWizardItems() {
 }
 
 
-
-
-
 function checkFrogBombOverlap() {
-    const frogOverlapX = frog.body.x - 50; // adjusted for centering overlap
-    // Get distance from tongue to fly
+    const frogOverlapX = frog.body.x - 50;
     const d = dist(frogOverlapX, frog.body.y, bomb.x, bomb.y);
-    // Check if it's an overlap
     const eaten = (d < frog.body.size / 2 + bomb.size / 2);
     if (eaten) {
         state = "lose";
-        // Reset the bomb
-        resetBomb();
+        spawnItems(); //avoid any interference
     }
 }
 
@@ -290,7 +280,7 @@ function checkFrogWizardItemsOverlap() {
         if (eaten && !item.caught) {
             item.caught = true;
             counter = counter + 1; //increase counter by one
-            if (counter === wizardItems.length) { // <-- Corrected to check progressBar
+            if (counter === wizardItems.length) {
                 state = "win";
             }
         }
@@ -308,5 +298,4 @@ function mousePressed() {
         state = "title"; //if player is on the win orr lose screen, click to restart the game
     }
 }
-
 
