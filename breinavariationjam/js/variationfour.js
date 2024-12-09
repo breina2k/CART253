@@ -41,7 +41,9 @@ const bomb = {
     x: 0,
     y: 0, // Will be random
     size: 80,
-    speed: 10 // it was too easy to win, bombs can run now
+    speed: 10, // it was too easy to win, bombs can run now
+    velocityX: 0,
+    velocityY: 0,
 };
 
 let lightSource = {
@@ -249,6 +251,8 @@ function spawnItems() {
             }
         }
     }
+    bomb.velocityX = random(-3, 3);
+    bomb.velocityY = random(-3, 3);
 }
 
 
@@ -263,14 +267,24 @@ function drawCounter() {
 }
 
 function drawBomb() {
+    bomb.x += bomb.velocityX;
+    bomb.y += bomb.velocityY;
+
+    if (bomb.x < bomb.size / 2 || bomb.x > width - bomb.size / 2) {
+        bomb.velocityX *= -1;
+    }
+    if (bomb.y < bomb.size / 2 || bomb.y > height - bomb.size / 2) {
+        bomb.velocityY *= -1;
+    }
+
     let d = dist(frog.body.x, frog.body.y, bomb.x, bomb.y);
     let myAlpha = d < lightSource.size / 2 ? map(d, 0, lightSource.size / 2, 255, 0) : 0;
 
-    if (d < lightSource.size / 2) { //only draw when ovelapping with lightsource crazy i know
+    if (d < lightSource.size / 2) {
         push();
-        tint(255, myAlpha); //custom alpha tint to the images
-        image(bombImg, bomb.x, bomb.y, 80, 80);
-        noTint(); //resets custom alpha tint
+        tint(255, myAlpha);
+        image(bombImg, bomb.x, bomb.y, bomb.size, bomb.size);
+        noTint();
         pop();
     }
 }
