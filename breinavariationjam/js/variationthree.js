@@ -71,10 +71,6 @@ function preload() {
 //creates a canvas and sets up the items off screen
 function setup() {
     createCanvas(640, 480);
-
-    // start positions
-    spawnItems(); //one function for items and bomb
-
 }
 
 function draw() {
@@ -292,6 +288,7 @@ function mousePressed() {
 
     if (state === "title") {
         state = "wizard"; //if state is title, swicth to gameplau on click
+        spawnItems();
     }
     else if (state === "win" || state === "lose") {
         resetGame();
