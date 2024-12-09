@@ -47,7 +47,7 @@ const bomb = {
 let lightSource = {
     x: 200,
     y: 200,
-    size: 270, //flashlight size
+    size: 350, //flashlight size
 };
 
 
@@ -56,9 +56,9 @@ let counter = 0; //current score
 let bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
 
 let wizardItems = [
-    { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Hat
-    { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Wand
-    { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Cape
+    { x: 0, y: 0, size: 80, caught: false, velocityX: 0, velocityY: 0, img: null }, // wizard Hat
+    { x: 0, y: 0, size: 80, caught: false, velocityX: 0, velocityY: 0, img: null }, // wizard Wand
+    { x: 0, y: 0, size: 80, caught: false, velocityX: 0, velocityY: 0, img: null }, // wizard Cape
 ];
 
 function preload() {
@@ -217,6 +217,8 @@ function spawnItems() {
                 }
             }
         }
+        item.velocityX = random(-3, 3);
+        item.velocityY = random(-3, 3);
     }
 
     //boolean check for bomb overlaps now
@@ -283,6 +285,16 @@ function drawWizardItems() {
                 tint(255, myAlpha);
                 image(item.img, item.x - item.size / 2, item.y - item.size / 2, item.size, item.size);
                 noTint();
+            }
+
+            item.x += item.velocityX;
+            item.y += item.velocityY;
+
+            if (item.x < item.size / 2 || item.x > width - item.size / 2) {
+                item.velocityX *= -1;
+            }
+            if (item.y < item.size / 2 || item.y > height - item.size / 2) {
+                item.velocityY *= -1;
             }
         }
     }
