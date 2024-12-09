@@ -44,6 +44,12 @@ const bomb = {
     speed: 10 // it was too easy to win, bombs can run now
 };
 
+let lightSource = {
+    x: 200,
+    y: 200,
+    size: 270, //flashlight size
+};
+
 
 let state = "title"; //starting title screen
 let counter = 0; //current score
@@ -80,6 +86,8 @@ function draw() {
     }
     else if (state === "wizard") {
         background(bgImg);
+        blackScreen();
+        flashlight();
         moveFrog();
 
         drawCounter();
@@ -154,6 +162,15 @@ function resetGame() {
     frog.body.y = 420;
     spawnItems();
     state = "title"; //bring back to titlescreen
+}
+
+function flashlight() { //thank you mathilde for this p5 example i'd be toast without it
+    for (let i = 0; i < lightSource.size; i += 5) {
+        let alpha = map(i, 0, lightSource.size, 150, 0);
+        fill(0, alpha);
+        noStroke();
+        ellipse(frog.body.x, frog.body.y, i); //basically makes epeating elipses that get more transparent
+    }
 }
 
 /**
@@ -244,18 +261,47 @@ function drawCounter() {
 }
 
 function drawBomb() {
-    push();
-    noStroke();
-    image(bombImg, bomb.x, bomb.y, 80, 80); //loading bomb img andddd ensuring width & height are set
-    pop();
+    let d = dist(frog.body.x, frog.body.y, bomb.x, bomb.y);
+    let myAlpha = d < lightSource.size / 2 ? map(d, 0, lightSource.size / 2, 255, 0) : 0;
+
+    if (d < lightSource.size / 2) { //only draw when ovelapping with lightsource crazy i know
+        push();
+        tint(255, myAlpha); //custom alpha tint to the images
+        image(bombImg, bomb.x, bomb.y, 80, 80);
+        noTint(); //resets custom alpha tint
+        pop();
+    }
 }
 
 function drawWizardItems() {
     for (let item of wizardItems) {
+        let d = dist(frog.body.x, frog.body.y, item.x, item.y);
+        let myAlpha = d < lightSource.size / 2 ? map(d, 0, lightSource.size / 2, 255, 0) : 0; //once again thank you mathilde
+
         if (!item.caught) {
-            image(item.img, item.x - item.size / 2, item.y - item.size / 2, item.size, item.size);
+            if (d < lightSource.size / 2) {
+                tint(255, myAlpha);
+                image(item.img, item.x - item.size / 2, item.y - item.size / 2, item.size, item.size);
+                noTint();
+            }
         }
     }
+}
+
+function blackScreen() {
+    //black screen
+    push();
+    fill(0);
+    noStroke();
+    rect(0, 0, width, height);
+    pop();
+
+    //transparent hole in black screen
+    push();
+    fill(0, 0, 0, 0);
+    noStroke();
+    ellipse(frog.body.x, frog.body.y, lightSource.size);
+    pop();
 }
 
 
