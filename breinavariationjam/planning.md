@@ -66,4 +66,3 @@ What is there?
     - Size
     - Text
     - Image
-ss
