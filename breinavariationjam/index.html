@@ -4,26 +4,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-
     <title>Frogfrogfrog</title>
-
-    <!-- CSS stylesheet(s) -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-
-    <!-- Library script(s) -->
-
-    <!-- p5.min.js is the main p5 library -->
+    <link rel="stylesheet" type="text/css" href="css/levels.css" />
     <script src="js/libraries/p5.min.js"></script>
-    <!-- p5.sound.min.js allows us to use sound -->
     <script src="js/libraries/p5.sound.min.js"></script>
-
-    <!-- My script(s) -->
-
-    <script src="js/script.js"></script>
 </head>
 
 <body>
-    <!-- HTML would go here if needed. -->
+    <div id="levelSelection" class="levelDiv" style="display: none;">
+        <div id="level1" class="level" onclick="goToLevel('variationone.html')">
+            <p>Level 1</p>
+        </div>
+        <div id="level2" class="level" onclick="goToLevel('variationtwo.html')">
+            <p>Level 2</p>
+        </div>
+        <div id="level3" class="level" onclick="goToLevel('variationthree.html')">
+            <p>Level 3</p>
+        </div>
+        <div id="level4" class="level" onclick="goToLevel('variationfour.html')">
+            <p>Level 4</p>
+        </div>
+    </div>
+
+    <!-- Move the script tag here to ensure the DOM is loaded before script execution -->
+    <script src="js/script.js"></script>
 </body>
 
 </html>

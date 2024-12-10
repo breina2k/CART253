@@ -2,23 +2,19 @@
  * Frog
  * Breina Kelly
  * 
- * Pond City is in danger! Evil Frog is mad af and the player needs to collect wizard frogs costume so he can fight!
- *  They'll do this by catching the correct set of items by moving the center frog and launching the tongue to capture the item.
- * Catch the three right items and you've won! Catch the wrong item and Evil Frog wins :(
+ * VARIATION THREE
  * 
- * Instructions (for me, real instructions will be in Read Me):
- * - Start game screen... where you start the game
- * - Real quick run down screen
- * - Move the frog with your mouse
- * - Click to launch the tongue
- * - Catch set of 3 correct item bubbles
- * - Bubble pop animation may kill me, I'll see what I can do
+ * Pond City is in danger! Evil Frog is mad af and the player needs to collect wizard frogs costume so he can fight!
+ * Wizard frog is naked and in the dark, his clothes are rrandomly placed somewhere on the screen and he has to go find them,
+ * but avoid finding the bomb!
+ * 
+ * Instructions 
+ * - Move the frog with the keyboard arrows!
+ * - Find set of 3 randomly placed hidden clothing items
  * - x/3 counter up top right
- * - If right set: congrats screen, then back to unlock screen
- * - If wrong set: Evil Frog won screen, restart game, no mercy, the fate of Pond City was in YOUR hands
- * - If wrong set: they believed in you... (guilt trip player)
- * - Once all four frogs are unlocked: super cool cut scene of Super Frogs beating Evil Frog, no animation just picture, who do u think i am
- * - Game Over
+ * - find all 3: congrats screen
+ * - find bomb: Evil Frog won screen, restart game, no mercy, the fate of Pond City was in YOUR hands
+ * - Send back to level menu
  * 
  * Made with p5
  * https://p5js.org/
@@ -51,9 +47,9 @@ let lightSource = {
 };
 
 
-let state = "title"; //starting title screen
+let state = "wizard"; //starting title screen
 let counter = 0; //current score
-let bombImg, frogImg, titleImg, winImg, loseImg, nakedFrogImg, bgImg;
+let bombImg, frogImg, winImg, loseImg, nakedFrogImg, bgImg;
 
 let wizardItems = [
     { x: 0, y: 0, size: 80, caught: false, img: null }, // wizard Hat
@@ -67,7 +63,6 @@ function preload() {
     wizardItems[2].img = loadImage('assets/images/wizardCapeBubble.png');
     bombImg = loadImage('assets/images/bomb.png');
     frogImg = loadImage('assets/images/wizardFrog.png');
-    titleImg = loadImage('assets/images/title.png');
     winImg = loadImage('assets/images/win.png');
     loseImg = loadImage('assets/images/lose.png');
     nakedFrogImg = loadImage('assets/images/nakedFrog.png');
@@ -77,14 +72,12 @@ function preload() {
 //creates a canvas and sets up the items off screen
 function setup() {
     createCanvas(640, 480);
+    spawnItems();
 }
 
 function draw() {
 
-    if (state === "title") {
-        title(); //title page
-    }
-    else if (state === "wizard") {
+    if (state === "wizard") {
         background(bgImg);
         blackScreen();
         flashlight();
@@ -112,11 +105,6 @@ function draw() {
 
 }
 
-function title() {
-    push();
-    image(titleImg, 0, 0, width, height); //fullscreen
-    pop();
-}
 
 function win() {
     push();
@@ -332,13 +320,8 @@ function checkFrogWizardItemsOverlap() {
 
 function mousePressed() {
 
-    if (state === "title") {
-        state = "wizard"; //if state is title, swicth to gameplau on click
-        spawnItems();
-    }
-    else if (state === "win" || state === "lose") {
-        resetGame();
-        state = "title"; //if player is on the win orr lose screen, click to restart the game
+    if (state === "win" || state === "lose") {
+        window.location.href = 'index.html'; // redirect back to the menu
     }
 }
 
